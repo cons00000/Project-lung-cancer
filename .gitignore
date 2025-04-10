@@ -1,2 +1,11 @@
-data/
-Organisation
+# Ignorer les fichiers spécifiques au système
+.DS_Store
+
+# Ignorer les répertoires de données
+NIH dataset_raw/
+Papers/
+VisualizationTools/
+
+# Ignorer les environnements virtuels Python
+mon_env/
+
