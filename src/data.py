@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from collections import Counter
 from monai.transforms import LoadImage, Compose, EnsureChannelFirst, ScaleIntensity
 from torch.utils.data import Dataset, DataLoader
 from dataclasses import dataclass
@@ -67,6 +68,51 @@ diagnostic = {
     )
     for _, row in clinical_data.iterrows()
 }
+
+
+# Compter les occurrences pour chaque champ
+t_stage_counts = Counter(diag.t_stage for diag in diagnostic.values())
+n_stage_counts = Counter(diag.n_stage for diag in diagnostic.values())
+m_stage_counts = Counter(diag.m_stage for diag in diagnostic.values())
+grading_counts = Counter(diag.hispastological_grading for diag in diagnostic.values())
+
+# Affichage des résultats
+print("Occurrences par valeur :")
+print("T-Stage:")
+for val, count in t_stage_counts.items():
+    print(f"  {val}: {count}")
+
+# is : 3
+# 1: 2  1a: 9  1b: 29  1c: 127
+# 2: 53 2a: 37  2b: 15 
+# 3: 57
+# 4: 23
+
+print("N-Stage:")
+for val, count in n_stage_counts.items():
+    print(f"  {val}: {count}")
+
+# 0: 184
+# 1: 85
+# 2: 8
+# 3: 78
+
+print("M-Stage:")
+for val, count in m_stage_counts.items():
+    print(f"  {val}: {count}")
+
+# 0: 230
+# 1: 53 1a: 30 1b: 26 1c: 13
+# 2: 1
+# 3: 2
+
+print("Histopathological Grading:")
+for val, count in grading_counts.items():
+    print(f"  {val}: {count}")
+
+# G1: 11  " G"1: 1 G1-2: 7 G1-G2: 2
+# G2: 27  G2-3: 34  G2-G3: 1  
+# G3: 61  " G3": 1
 
 patients = {
     row['NewPatientID']: Patient(
