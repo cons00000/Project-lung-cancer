@@ -16,7 +16,6 @@ print(clinical_data.isnull().sum())
 
 @dataclass
 class Patient:
-    No: int
     PatientID: str
     Sex: str
     Age: int
@@ -36,6 +35,20 @@ class Patient:
         """Ajoute une image à la liste des images du patient"""
         self.images.append(image_path)
 
+class Diagnostic:
+    def __init__(self, patient_id: str, t_stage: str, n_stage: str, m_stage: str, hispastological_grading: str):
+        self.patient_id = patient_id
+        self.t_stage = t_stage
+        self.n_stage = n_stage
+        self.m_stage = m_stage
+        self.hispastological_grading = hispastological_grading
+
+    def __str__(self):
+        return (
+            f"Patient ID: {self.patient_id}, T-Stage: {self.t_stage}, "
+            f"N-Stage: {self.n_stage}, M-Stage: {self.m_stage}"
+            f"Histopathological Grading: {self.hispastological_grading}"
+        )
 # Calculer la moyenne de l'âge et du poids en ignorant les NaN
 mean_age = clinical_data['Age'].mean()
 mean_weight = clinical_data['weight (kg)'].mean()
@@ -44,9 +57,19 @@ mean_weight = clinical_data['weight (kg)'].mean()
 clinical_data['Age'] = clinical_data['Age'].fillna(mean_age)
 clinical_data['weight (kg)'] = clinical_data['weight (kg)'].fillna(mean_weight)
 
+diagnostic = {
+    row['NewPatientID']: Diagnostic(
+        patient_id=row['NewPatientID'],
+        t_stage=row['T-Stage'],
+        n_stage=row['N-Stage'],
+        m_stage=row['Ｍ-Stage'],
+        hispastological_grading=row['Histopathological grading']
+    )
+    for _, row in clinical_data.iterrows()
+}
+
 patients = {
     row['NewPatientID']: Patient(
-        No=row['No.'],
         PatientID=row['NewPatientID'],
         Sex=row['Sex'],
         Age=int(row['Age']),
