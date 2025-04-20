@@ -5,8 +5,13 @@ import torch.optim as optim
 
 from model import build_model
 from utils import save_model, save_plots
-from datasets import train_loader, valid_loader
+from data import train_loader, valid_loader # en cours de construction 
 from tqdm.auto import tqdm
+
+##############################################
+# Classification model : use shufflenet_v2_x1_0 et transfer learning 
+# Segmentation model 
+##############################################
 
 # construct the argument parser
 parser = argparse.ArgumentParser()
@@ -116,3 +121,4 @@ save_model(epochs, model, optimizer, criterion)
 # save the loss and accuracy plots
 save_plots(train_acc, valid_acc, train_loss, valid_loss)
 print('TRAINING COMPLETE')
+
