@@ -89,8 +89,3 @@ jupyter notebook src/Segmentation/Segmentation.ipynb
 ```
 
 ## Results
-
-
-## Acknowledgments
-- The Cancer Imaging Archive (TCIA) for providing the dataset
-- [List any other acknowledgments here]
