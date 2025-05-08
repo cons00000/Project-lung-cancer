@@ -40,13 +40,7 @@ Our approach consists of two primary phases:
 git clone https://github.com/cons000000/project-lung-cancer.git
 cd project-lung-cancer
 ```
-
-2. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-3. Download the dataset by following instructions in the [Data Access](#data-access) section
+2. Download the dataset in the [Data Access](https://www.cancerimagingarchive.net/collection/lung-pet-ct-dx/) section, both the files names "Images" and "Clinical Data" are needed.
 
 ## Data Access
 The Lung-PET-CT-Dx dataset is available through The Cancer Imaging Archive (TCIA). To access the data:
