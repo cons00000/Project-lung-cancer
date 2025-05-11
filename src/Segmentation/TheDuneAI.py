@@ -13,7 +13,7 @@ import os
 import lung_extraction_funcs_13_09 as le
 import Generator_v1 as Generator_v1
 
-import tqdm
+from tqdm import tqdm
 
 class ContourPilot:
     def __init__(self, model_path, data_path, output_path='./',verbosity=False,pat_dict = None):
@@ -72,17 +72,34 @@ class ContourPilot:
                 params=params[0]
                 img = np.squeeze(img)
 
+                if img.size == 0:  # Skip empty images
+                    print(f"Warning: Empty image encountered for file {filename}")
+                    continue
+                
+                # Generate the segmentation
+                try:
+                    predicted_array = self.__generate_segmentation__(img, params)
+                except Exception as e:
+                    print(f"Error during segmentation of {filename}: {str(e)}")
+                    continue
+
                 predicted_array = self.__generate_segmentation__(img,params)
 
-                if not os.path.exists(os.path.join(self.Output_path,filename.split('\\')[-2]+'_(DL)')):
-                    os.makedirs(os.path.join(self.Output_path,filename.split('\\')[-2]+'_(DL)'))   
-                
+                folder_name = os.path.basename(os.path.dirname(filename))
+                path_out = os.path.join(self.Output_path, f"{folder_name}_(DL)")
+
+                if not os.path.exists(path_out):
+                    os.makedirs(path_out)
+                                
+                # Guardar la máscara generada
                 generated_img = sitk.GetImageFromArray(predicted_array)
                 generated_img.SetSpacing(params['original_spacing'])
                 generated_img.SetOrigin(params['img_origin'])
-                sitk.WriteImage(generated_img,os.path.join(self.Output_path,filename.split('\\')[-2]+'_(DL)','DL_mask.nrrd')) 
-                temp_data=sitk.ReadImage(filename)
-                sitk.WriteImage(temp_data,os.path.join(self.Output_path,filename.split('\\')[-2]+'_(DL)','image.nrrd'))
+                sitk.WriteImage(generated_img, os.path.join(path_out, 'DL_mask.nrrd'))
+
+                # Guardar la imagen original
+                temp_data = sitk.ReadImage(filename)
+                sitk.WriteImage(temp_data, os.path.join(path_out, 'image.nrrd'))
 
                 if count == len(self.Patients_gen):
                     return 0

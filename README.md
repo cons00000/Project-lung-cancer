@@ -32,7 +32,9 @@ Our approach consists of two primary phases:
 
 ### Prerequisites
 - Python 3.8+
-- Required packages listed in `requirements.txt`
+- Create two separate environments for Data_preparation and Segmentation
+- Environment for Data_preparation : download the packages listed in `requirements.txt`
+- Environment for Segmentation : create a conda environment and download the packages listed in `requirements.sh`
 
 ### Getting Started
 1. Clone this repository
@@ -89,3 +91,74 @@ jupyter notebook src/Segmentation/Segmentation.ipynb
 ```
 
 ## Results
+
+1. **Analysis, presentation et exploration of the data** 
+
+# Lung Cancer Dataset Summary
+
+The information about the patients has two components: the TNM staging on the one hand and the hispotological grading on the other hand. Below is a short recap to understand the difference between these two.
+
+| **Aspect**             | **TNM Staging**                          | **Histopathological Grading**              |
+| ---------------------- | ---------------------------------------- | ------------------------------------------ |
+| **Focus**              | Anatomical spread                        | Cellular appearance & behavior             |
+| **Used for**           | Treatment decisions, prognosis           | Tumor aggressiveness, additional prognosis |
+| **Components**         | T, N, M                                  | Differentiation (G1-G3)                    |
+| **Depends on**         | Imaging, biopsies, surgery               | Microscopic examination                    |
+| **More important for** | Surgical resectability, radiation fields | Chemotherapy response prediction           |
+
+1.a) **TNM Staging**
+
+The TNM staging system for lung cancer is used to describe the extent of cancer in a patient's body. It is based on three components:
+- T (Tumor): Describes the size and extent of the primary tumor (T0 to T4, with higher numbers indicating larger or more invasive tumors).
+- N (Nodes): Indicates the extent of regional lymph node involvement (N0 to N3, with higher numbers showing more extensive node involvement).
+- M (Metastasis): Specifies whether cancer has spread to distant organs (M0 indicates no distant spread, M1 indicates metastasis).
+
+## T-Stage Distribution
+| Stage | Count |
+|-------|-------|
+| 1     | 2     |
+| 1a    | 9     |
+| 1b    | 29    |
+| 1c    | 127   |
+| 2     | 53    |
+| 2a    | 37    |
+| 2b    | 15    |
+| 3     | 57    |
+| 4     | 23    |
+| is    | 3     |
+
+According to this array, all patient have a tumor. It can however be small.
+
+## N-Stage Distribution
+| Stage | Count |
+|-------|-------|
+| 0     | 184   |
+| 1     | 85    |
+| 2     | 8     |
+| 3     | 78    |
+
+## M-Stage Distribution
+| Stage | Count |
+|-------|-------|
+| 0     | 230   |
+| 1     | 53    |
+| 1a    | 30    |
+| 1b    | 26    |
+| 1c    | 13    |
+| 2     | 1     |
+| 3     | 2     |
+
+1.b) **Histopathological Grading**
+
+## Histopathological Grading
+| Grade      | Count |
+|------------|-------|
+| nan        | 210   |
+| G1         | 12    |
+| G1-G2      | 11    |
+| G2         | 27    |
+| G2-3       | 35    |
+| G3         | 62    |
+
+
+
