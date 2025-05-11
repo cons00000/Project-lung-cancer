@@ -2,10 +2,5 @@
 .DS_Store
 
 # Ignorer les répertoires de données
-NIH dataset_raw/
-Papers/
-VisualizationTools/
-
-# Ignorer les environnements virtuels Python
-mon_env/
+src/Segmentation/model_files
 
