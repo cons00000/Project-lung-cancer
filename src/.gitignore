@@ -1,6 +1,0 @@
-# Ignorer les fichiers spécifiques au système
-.DS_Store
-
-# Ignorer les répertoires de données
-src/Segmentation/model_files
-
