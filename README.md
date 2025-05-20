@@ -55,28 +55,36 @@ The Lung-PET-CT-Dx dataset is available through The Cancer Imaging Archive (TCIA
 ## Repository Structure
 ```
 project-lung-cancer/
-├── NIH dataset_raw/                       # Data directory (not tracked by git)
-│   ├── manifest-1608669183333/            # Raw dataset files
-│   ├── NRRD/                     # Dataset files converted to NRRD
-│   └── Processed/                # NNRD files + mask of the tumor
+├── NIH dataset_raw/                      
+│   ├── manifest-1608669183333/           
+│   ├── NRRD/                             
+│   └── Processed/                        
 ├── src/
-│   ├── Data_preparation/       # Data processing scripts
-│   │   ├── AnalysisBox.py      # Analysis utilities
-│   │   ├── DataSet.py          # Dataset class definitions
-│   │   ├── FeaturesSet.py      # Feature extraction
-│   │   ├── GenerateResultBox.py # Result generation utilities
-│   │   ├── ResultSet.py        # Result processing
-│   │   ├── ToolBox.py          # General utilities
-│   │   ├── data_preparation.ipynb # Data preparation notebook
-│   │   └── requirements.txt    # Dependencies for data preparation
-│   ├── Segmentation/           # Image segmentation
-│   │   ├── model_files/        # Pretrained model weights
-│   │   ├── Generator_v1.py     # Data generator for segmentation
-│   │   ├── lung_extraction_funcs_13_09.py # Lung extraction utilities
-│   │   ├── Segmentation.ipynb  # Segmentation workflow notebook
-│   │   ├── TheDuneAI.py        # Core AI model implementation
-│   │   └── visualize_data.ipynb # Visualization for segmentation quality control
-└── README.md                   # Project description
+│   ├── Data_preparation/               
+│   │   ├── readme.md                     
+│   │   ├── requirements.sh              
+│   │   ├── Segmentation.ipynb            
+│   │   └── TheDuneAI.py                  
+│   ├── T_Stage_Classification/         
+│   │   ├── Auto RECIST and tumour volume measurements.ipynb
+│   │   ├── combined_t_stage_recist.csv
+│   │   ├── Readme.txt
+│   │   ├── recist_and_volume_calculator.py
+│   │   └── resultats_tumeurs.csv
+│   ├── Visualize_lung_mask/             
+│   │   ├── requirements.txt
+│   │   └── visualize_data.ipynb
+│   ├── Xai/                             
+│   │   └── Grad_Cam.ipynb
+│   ├── Segmentation/                     
+│   │   ├── model_files/                  
+│   │   ├── Generator_v1.py               
+│   │   ├── lung_extraction_funcs_13_09.py
+│   │   ├── Segmentation.ipynb
+│   │   ├── TheDuneAI.py
+│   │   └── visualize_data.ipynb
+└── README.md                             
+
 ```
 
 ## Usage
@@ -128,6 +136,18 @@ The TNM staging system for lung cancer is used to describe the extent of cancer 
 | is    | 3     |
 
 According to this array, all patient have a tumor. It can however be small.
+
+Here is how the classification is achieved given the size of the tumor.
+
+| T-Stage | Tumor Size                   |
+| ------- | ---------------------------- |
+| T1a     | ≤ 1 cm (≤ 10 mm)             |
+| T1b     | > 1 cm and ≤ 2 cm (11–20 mm) |
+| T1c     | > 2 cm and ≤ 3 cm (21–30 mm) |
+| T2a     | > 3 cm and ≤ 4 cm (31–40 mm) |
+| T2b     | > 4 cm and ≤ 5 cm (41–50 mm) |
+| T3      | > 5 cm and ≤ 7 cm (51–70 mm) |
+| T4      | > 7 cm (> 70 mm)             |
 
 ## N-Stage Distribution
 | Stage | Count |
