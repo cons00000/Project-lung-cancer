@@ -54,20 +54,27 @@ class ToolBox(DataSet):
 
             # Create a list to store rows temporarily
             dataset_stats = []
+            skipped_files = []
 
             # Process each patient
             for pat, path in tqdm(self, desc='Patients processed'):
-                image, _ = self.__read_scan(path[0])
-
-                # Process each slice in the current image
-                for i, temp_slice in enumerate(image):
-                    # Collect metadata for the current slice
-                    row_data = [pat, str(i)] + [self.__val_check(temp_slice, x) for x in params_list]
-                    dataset_stats.append(row_data)
+                image, skipped_file = self.__read_scan(path[0])
+                if skipped_file is not None:
+                    print(f"[Warning] Skipped file: {skipped_file}")
+                    match = re.search(r"Lung_Dx-([^/]+)", skipped_file)
+                    print("match", match)
+                    if match:
+                        result = match.group(1)
+                    skipped_files.append(result)
+                if image is not None:
+                    for i, temp_slice in enumerate(image):
+                        # Collect metadata for the current slice
+                        row_data = [pat, str(i)] + [self.__val_check(temp_slice, x) for x in params_list]
+                        dataset_stats.append(row_data)
 
             # Convert the list of rows into a DataFrame
             dataset_stats_df = pd.DataFrame(dataset_stats, columns=['patient', 'slice#'] + params_list)
-            return dataset_stats_df
+            return dataset_stats_df, skipped_files
 
         else:
             warn('Only available for DICOM dataset')
@@ -167,20 +174,31 @@ class ToolBox(DataSet):
             image_type: Data type of the input image.
         '''
         if self._data_type == 'dcm':
-
+            skipped_patients = []
+            
             if self._image_only:
 
                 for pat, pat_path in tqdm(self, desc='Patients converted'):
+
                     img_path = pat_path[0]
-                    image = self.__get_image(img_path, image_type)
+                    try:
+                        image = self.__get_image(img_path, image_type)
 
-                    export_dir = os.path.join(export_path, 'converted_nrrds', pat)
-                    if not os.path.exists(export_dir):
-                        os.makedirs(export_dir)
+                    except (AttributeError, ValueError) as e:
+                        print(f"[Skip] Patient {pat} ignoré : {e}")
+                        skipped_patients.append(pat)
+                        continue
 
-                    image_file_name = 'image.nrrd'
-                    sitk.WriteImage(image, os.path.join(export_dir, image_file_name))
-
+                    if not isinstance(image, sitk.Image):
+                            skipped_patients.append(pat)
+                            raise TypeError(f"L'image pour le patient {pat} n’est pas un SimpleITK.Image")
+                    else:
+                        export_dir = os.path.join(export_path, 'converted_nrrds', pat)
+                        if not os.path.exists(export_dir):
+                            os.makedirs(export_dir)
+                                
+                        image_file_name = 'image.nrrd'
+                        sitk.WriteImage(image, os.path.join(export_dir, image_file_name))
             else:
 
                 for pat, pat_path in tqdm(self, desc='Patients converted'):
@@ -212,10 +230,9 @@ class ToolBox(DataSet):
                             raise
                         except Exception:
                             warn('Patients %s ROI : %s skipped' % (pat, roi))
-
-
         else:
             raise TypeError('Currently only conversion from dicom -> nrrd is available')
+        print(skipped_patients)
 
     def pre_process(self, ref_img_path: str = None, save_path: str = None,
                     z_score: bool = False, norm_coeff: tuple = None, hist_match: bool = False,
@@ -319,7 +336,7 @@ class ToolBox(DataSet):
         return checks_df
 
     def __quality_checks(self, patient, path, qc_parameters, columns, verbosity):
-        scans, skipped_files = self.__read_scan(path[0])
+        scans, skipped_file = self.__read_scan(path[0])
         scans_sorted = False
         try:
             scans.sort(key=lambda x: x.ImagePositionPatient[2])
@@ -548,27 +565,36 @@ class ToolBox(DataSet):
         pol_row_coords, pol_col_coords = draw.polygon(row_coords, col_coords, shape)
         mask[pol_row_coords, pol_col_coords] = 1
         return mask
-
+    
     def __read_scan(self, path):
         scan = []
-        skiped_files = []
+        skipped_file = None
         for s in os.listdir(path):
+            full_path = os.path.join(path, s)
             try:
-                temp_file = pydicom.dcmread(os.path.join(path, s), force=True)
+                temp_file = pydicom.dcmread(full_path, force=True)
                 temp_file.file_meta.TransferSyntaxUID = pydicom.uid.ImplicitVRLittleEndian
-                temp_mod = temp_file.Modality
-                scan.append(temp_file)
-                if (temp_mod == 'RTSTRUCT') or (temp_mod == 'RTPLAN') or (temp_mod == 'RTDOSE'):
-                    scan.remove(temp_file)
+                temp_mod = getattr(temp_file, 'Modality', None)
+
+                if temp_mod not in ['RTSTRUCT', 'RTPLAN', 'RTDOSE']:
+                    scan.append(temp_file)
+                else:
+                    skipped_file=path
+
             except Exception:
-                skiped_files.append(s)
+                skipped_file=path
 
         try:
-            scan.sort(key = lambda x: x.ImagePositionPatient[2])
-        except Exception:
-            warn('Some problems with sorting scans')
+            scan.sort(key=lambda x: x.ImagePositionPatient[2])
 
-        return scan,skiped_files
+        except Exception:
+            return scan, skipped_file
+
+        if len(scan) == 0:
+            return None, skipped_file
+        else:
+            return scan, skipped_file
+
 
     def __get_pixel_values(self,scans,image_type,qa=False,image_res=[512,512]):
         try:
@@ -590,24 +616,53 @@ class ToolBox(DataSet):
 
     def __get_image(self, img_path,image_type):
 
-        image, _ = self.__read_scan(img_path)
+        image, skipped_file = self.__read_scan(img_path)
         img_first_slice = image[0]
         img_array = self.__get_pixel_values(image, image_type)
 
-        xres = np.array(img_first_slice.PixelSpacing[0])
-        yres = np.array(img_first_slice.PixelSpacing[1])
+        try:
+            xres = float(img_first_slice.PixelSpacing[0])
+            yres = float(img_first_slice.PixelSpacing[1])
+            _ = image[0].ImagePositionPatient
+        except AttributeError:
+            raise ValueError("Image missing required DICOM tags (PixelSpacing or ImagePositionPatient)")
+
+        pixel_spacing = getattr(img_first_slice, 'PixelSpacing', None)
+        if pixel_spacing is not None:
+            xres = np.array(pixel_spacing[0])
+            yres = np.array(pixel_spacing[1])
+        else:
+            print(f"[Warning] Missing PixelSpacing in file: {img_path}")
+            xres = yres = 1.0  # or some default value that fits your application
+
+        pixel_spacing = getattr(img_first_slice, 'PixelSpacing', None)
+        if pixel_spacing is not None:
+            xres = np.array(pixel_spacing[0])
+            yres = np.array(pixel_spacing[1])
+        else:
+            print(f"[Warning] Missing PixelSpacing in file: {img_path}")
+            xres = yres = 1.0  # or some default value that fits your application
+
         zres = None
         for i in range(1, len(image)):
-            z_diff = np.abs(image[i].ImagePositionPatient[2] - image[i-1].ImagePositionPatient[2])
-            if zres is None:
-                zres = z_diff
-            elif z_diff > 0:
-                zres = min(zres, z_diff)  # Take the smallest positive z-spacing to avoid large gaps
-        
-        # If zres is None or 0, set it to a default value (e.g., 1.0)
+            try:
+                pos1 = image[i].ImagePositionPatient
+                pos0 = image[i - 1].ImagePositionPatient
+                z_diff = np.abs(pos1[2] - pos0[2])
+
+                if zres is None:
+                    zres = z_diff
+                elif z_diff > 0:
+                    zres = min(zres, z_diff)
+            except AttributeError:
+                print(f"[Warning] Missing ImagePositionPatient in slice {i} of file: {img_path}")
+                continue
+
+        # If zres is None or 0, set a default
         if zres is None or zres == 0:
-            print("Warning: Zero or undefined z-resolution detected. Setting z-resolution to 1.0.")
+            print(f"[Warning] Zero or undefined z-resolution detected in {img_path}. Setting z-resolution to 1.0.")
             zres = 1.0
+
         image_sitk = sitk.GetImageFromArray(img_array.astype(image_type))
         image_sitk.SetSpacing((float(xres), float(yres), float(zres)))
         image_sitk.SetOrigin(
@@ -619,7 +674,7 @@ class ToolBox(DataSet):
 
     def __get_binary_mask(self,img_path,rt_structure,roi,image_type):
 
-        image,_ = self.__read_scan(img_path)
+        image,skipped_file = self.__read_scan(img_path)
 
         precision_level = 0.5
         img_first_slice = image[0]

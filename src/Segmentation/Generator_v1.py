@@ -300,6 +300,11 @@ class Patient_data_generator(keras.utils.Sequence):
         if self.extract_lungs:
             lung_mask,minb,maxb = le.get_seg_lungs(img,return_only_mask=False)
             
+            # 🚨 Add check for valid slice
+            if minb >= maxb:
+                print(f"[WARNING] Skipping {filename} — invalid lung crop (minb={minb}, maxb={maxb})")
+                return None, None, None, None
+            
             if not self.img_only:
                 lung_mask_with_tumor_mask = lung_mask.copy()
                 kernel = le.get_kernel()
@@ -353,10 +358,24 @@ class Patient_data_generator(keras.utils.Sequence):
     def __getitem__(self, index):
         #predict mode returns preprocessed patients images
         if self.predict:
-            filenames = self.filenames[index*self.batch_size:(index+1)*self.batch_size]
-            # load files
+            # Assuming you are loading files in batches and processing them
+            filenames = self.filenames[index * self.batch_size:(index + 1) * self.batch_size]  # Get filenames for the current batch
+
+            # load images in the batch
             imgs = [self._load_patient_for_predict(filename) for filename in filenames]
-          
+
+            # Optionally, track failed patients
+            failed_patients = []
+            for filename, img in zip(filenames, imgs):
+                if img is None:  # If loading the image failed, append it to the failed list
+                    print(f"[INFO] Failed to load {filename}")
+                    failed_patients.append(filename)
+
+            # After the loop, you can process or log failed patients
+            if failed_patients:
+                print(f"[INFO] The following patients failed to load: {', '.join(failed_patients)}")
+
+                
             if self.calculate_snr:
                  # create numpy batch
                 imgs,msks,snrs,params = zip(*imgs)

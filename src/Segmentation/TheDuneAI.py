@@ -37,6 +37,8 @@ class ContourPilot:
         self.model1.load_weights(os.path.join(model_path,'weights_v7.hdf5'))
 
 
+
+
     def __generate_segmentation__(self,img,params,thr=0.99):
         temp_pred_arr = np.zeros_like(img)
         if self.verbosity:
@@ -63,7 +65,7 @@ class ContourPilot:
 
         return predicted_array
     
-    def segment(self):
+    """ def segment(self):
         if self.model1 and self.Patient_dict and self.Output_path:
             count=0
             for img,_,filename,params in tqdm(self.Patients_gen, desc='Progress'):
@@ -105,3 +107,48 @@ class ContourPilot:
                     return 0
 
                 count+=1
+ """
+    def segment(self):
+        if not (self.model1 and self.Patient_dict and self.Output_path):
+            print("[Error] Model, Patient_dict, or Output_path is not set.")
+            return
+
+        count = 0
+
+        for sample in tqdm(self.Patients_gen, desc='Progress'):
+            try:
+                img, _, filename, params = sample
+
+                filename = filename[0]
+                params = params[0]
+                img = np.squeeze(img)
+
+                if img is None or not isinstance(img, np.ndarray) or img.size == 0:
+                    print(f"[Warning] Skipping empty or invalid image: {filename}")
+                    continue
+
+                # Generate the segmentation
+                predicted_array = self.__generate_segmentation__(img, params)
+
+                # Prepare output path
+                folder_name = os.path.basename(os.path.dirname(filename))
+                path_out = os.path.join(self.Output_path, f"{folder_name}_(DL)")
+                os.makedirs(path_out, exist_ok=True)
+
+                # Save mask
+                generated_img = sitk.GetImageFromArray(predicted_array)
+                generated_img.SetSpacing(params['original_spacing'])
+                generated_img.SetOrigin(params['img_origin'])
+                sitk.WriteImage(generated_img, os.path.join(path_out, 'DL_mask.nrrd'))
+
+                # Save original image
+                temp_data = sitk.ReadImage(filename)
+                sitk.WriteImage(temp_data, os.path.join(path_out, 'image.nrrd'))
+
+                count += 1
+
+            except Exception as e:
+                print(f"[Error] Problem with file {filename if 'filename' in locals() else 'unknown'}: {e}")
+                continue
+
+        print(f"[Done] Processed {count} patient(s).")
