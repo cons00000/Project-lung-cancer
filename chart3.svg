@@ -1,0 +1,87 @@
+<svg width="700" height="500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="barGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow3" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.1"/>
+    </filter>
+    <style>
+      .bar { fill: url(#barGradient3); filter: url(#shadow3); transition: all 0.3s ease; }
+      .bar:hover { fill: #ea580c; transform: scale(1.02); }
+      .chart-bg { fill: #fafafa; }
+      .axis-line { stroke: #e5e7eb; stroke-width: 2; }
+      .grid-line { stroke: #f3f4f6; stroke-width: 1; stroke-dasharray: 2,2; }
+      .axis-label { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: 600; fill: #1f2937; }
+      .tick-label { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #6b7280; font-weight: 500; }
+      .value-label { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #374151; font-weight: 600; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect class="chart-bg" width="700" height="500" rx="12"/>
+  
+  <!-- Grid lines -->
+  <line class="grid-line" x1="80" y1="80" x2="80" y2="380"/>
+  <line class="grid-line" x1="80" y1="380" x2="620" y2="380"/>
+  <line class="grid-line" x1="80" y1="320" x2="620" y2="320"/>
+  <line class="grid-line" x1="80" y1="260" x2="620" y2="260"/>
+  <line class="grid-line" x1="80" y1="200" x2="620" y2="200"/>
+  <line class="grid-line" x1="80" y1="140" x2="620" y2="140"/>
+  <line class="grid-line" x1="80" y1="80" x2="620" y2="80"/>
+  
+  <!-- Bars -->
+  <!-- Stage 0: 230 -->
+  <rect class="bar" x="100" y="82" width="70" height="298" rx="6"/>
+  <text class="value-label" x="135" y="75" text-anchor="middle">230</text>
+  
+  <!-- Stage 1: 53 -->
+  <rect class="bar" x="190" y="253" width="70" height="127" rx="6"/>
+  <text class="value-label" x="225" y="246" text-anchor="middle">53</text>
+  
+  <!-- Stage 1a: 30 -->
+  <rect class="bar" x="280" y="308" width="70" height="72" rx="6"/>
+  <text class="value-label" x="315" y="301" text-anchor="middle">30</text>
+  
+  <!-- Stage 1b: 26 -->
+  <rect class="bar" x="370" y="318" width="70" height="62" rx="6"/>
+  <text class="value-label" x="405" y="311" text-anchor="middle">26</text>
+  
+  <!-- Stage 1c: 13 -->
+  <rect class="bar" x="460" y="349" width="70" height="31" rx="6"/>
+  <text class="value-label" x="495" y="342" text-anchor="middle">13</text>
+  
+  <!-- Stage 2: 1 -->
+  <rect class="bar" x="550" y="377" width="70" height="3" rx="6"/>
+  <text class="value-label" x="585" y="370" text-anchor="middle">1</text>
+  
+  <!-- Stage 3: 2 -->
+  <rect class="bar" x="640" y="375" width="70" height="5" rx="6"/>
+  <text class="value-label" x="675" y="368" text-anchor="middle">2</text>
+  
+  <!-- X-axis labels -->
+  <text class="tick-label" x="135" y="405" text-anchor="middle">0</text>
+  <text class="tick-label" x="225" y="405" text-anchor="middle">1</text>
+  <text class="tick-label" x="315" y="405" text-anchor="middle">1a</text>
+  <text class="tick-label" x="405" y="405" text-anchor="middle">1b</text>
+  <text class="tick-label" x="495" y="405" text-anchor="middle">1c</text>
+  <text class="tick-label" x="585" y="405" text-anchor="middle">2</text>
+  <text class="tick-label" x="675" y="405" text-anchor="middle">3</text>
+  
+  <!-- Y-axis labels -->
+  <text class="tick-label" x="70" y="385">0</text>
+  <text class="tick-label" x="70" y="325">50</text>
+  <text class="tick-label" x="70" y="265">100</text>
+  <text class="tick-label" x="70" y="205">150</text>
+  <text class="tick-label" x="70" y="145">200</text>
+  <text class="tick-label" x="70" y="85">250</text>
+  
+  <!-- Axis lines -->
+  <line class="axis-line" x1="80" y1="80" x2="80" y2="380"/>
+  <line class="axis-line" x1="80" y1="380" x2="620" y2="380"/>
+  
+  <!-- Axis labels -->
+  <text class="axis-label" x="350" y="445" text-anchor="middle">Stage</text>
+  <text class="axis-label" x="35" y="230" text-anchor="middle" transform="rotate(-90, 35, 230)">Count</text>
+</svg>
