@@ -1,0 +1,134 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+Input Notebook:  /usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/src/Xai/Grad_Cam.ipynb
+Output Notebook: /usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/src/Xai/Grad_Cam_output.ipynb
+Executing:   0%|          | 0/13 [00:00<?, ?cell/s]cannot import name 'TypeAliasType' from 'typing_extensions' (/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/typing_extensions.py)
+Traceback (most recent call last):
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/traitlets/traitlets.py", line 632, in get
+    value = obj._trait_values[self.name]
+KeyError: 'kernel_dirs'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 87, in wrapper
+    out = await method(self, *args, **kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 435, in _async_start_kernel
+    kernel_cmd, kw = await self._async_pre_start_kernel(**kw)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 397, in _async_pre_start_kernel
+    self.kernel_spec,
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 195, in kernel_spec
+    self._kernel_spec = self.kernel_spec_manager.get_kernel_spec(self.kernel_name)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/kernelspec.py", line 282, in get_kernel_spec
+    resource_dir = self._find_spec_directory(kernel_name.lower())
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/kernelspec.py", line 256, in _find_spec_directory
+    for kernel_dir in [kd for kd in self.kernel_dirs if os.path.isdir(kd)]:
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/traitlets/traitlets.py", line 687, in __get__
+    return t.cast(G, self.get(obj, cls))  # the G should encode the Optional
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/traitlets/traitlets.py", line 635, in get
+    default = obj.trait_defaults(self.name)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/traitlets/traitlets.py", line 1897, in trait_defaults
+    return t.cast(Sentinel, self._get_trait_default_generator(names[0])(self))
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/kernelspec.py", line 195, in _kernel_dirs_default
+    from IPython.paths import get_ipython_dir
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/__init__.py", line 55, in <module>
+    from .terminal.embed import embed
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/terminal/embed.py", line 16, in <module>
+    from IPython.terminal.interactiveshell import TerminalInteractiveShell
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/terminal/interactiveshell.py", line 51, in <module>
+    from .debugger import TerminalPdb, Pdb
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/terminal/debugger.py", line 6, in <module>
+    from IPython.core.completer import IPCompleter
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/core/completer.py", line 220, in <module>
+    from IPython.core.guarded_eval import guarded_eval, EvaluationContext
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/core/guarded_eval.py", line 40, in <module>
+    from typing_extensions import TypeAliasType
+ImportError: cannot import name 'TypeAliasType' from 'typing_extensions' (/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/typing_extensions.py)
+Executing:   0%|          | 0/13 [00:00<?, ?cell/s]
+Traceback (most recent call last):
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/bin/papermill", line 8, in <module>
+    sys.exit(papermill())
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/click/core.py", line 1442, in __call__
+    return self.main(*args, **kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/click/core.py", line 1363, in main
+    rv = self.invoke(ctx)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/click/core.py", line 1226, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/click/core.py", line 794, in invoke
+    return callback(*args, **kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/click/decorators.py", line 34, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/papermill/cli.py", line 235, in papermill
+    execute_notebook(
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/papermill/execute.py", line 116, in execute_notebook
+    nb = papermill_engines.execute_notebook_with_engine(
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/papermill/engines.py", line 48, in execute_notebook_with_engine
+    return self.get_engine(engine_name).execute_notebook(nb, kernel_name, **kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/papermill/engines.py", line 370, in execute_notebook
+    cls.execute_managed_notebook(nb_man, kernel_name, log_output=log_output, **kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/papermill/engines.py", line 442, in execute_managed_notebook
+    return PapermillNotebookClient(nb_man, **final_kwargs).execute()
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/papermill/clientwrap.py", line 43, in execute
+    with self.setup_kernel(**kwargs):
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/nbclient/client.py", line 600, in setup_kernel
+    self.start_new_kernel(**kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/nbclient/client.py", line 550, in async_start_new_kernel
+    await ensure_async(self.km.start_kernel(extra_arguments=self.extra_arguments, **kwargs))
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 197, in ensure_async
+    result = await obj
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 96, in wrapper
+    raise e
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 87, in wrapper
+    out = await method(self, *args, **kwargs)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 435, in _async_start_kernel
+    kernel_cmd, kw = await self._async_pre_start_kernel(**kw)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 397, in _async_pre_start_kernel
+    self.kernel_spec,
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/manager.py", line 195, in kernel_spec
+    self._kernel_spec = self.kernel_spec_manager.get_kernel_spec(self.kernel_name)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/kernelspec.py", line 282, in get_kernel_spec
+    resource_dir = self._find_spec_directory(kernel_name.lower())
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/kernelspec.py", line 256, in _find_spec_directory
+    for kernel_dir in [kd for kd in self.kernel_dirs if os.path.isdir(kd)]:
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/traitlets/traitlets.py", line 687, in __get__
+    return t.cast(G, self.get(obj, cls))  # the G should encode the Optional
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/traitlets/traitlets.py", line 635, in get
+    default = obj.trait_defaults(self.name)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/traitlets/traitlets.py", line 1897, in trait_defaults
+    return t.cast(Sentinel, self._get_trait_default_generator(names[0])(self))
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/jupyter_client/kernelspec.py", line 195, in _kernel_dirs_default
+    from IPython.paths import get_ipython_dir
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/__init__.py", line 55, in <module>
+    from .terminal.embed import embed
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/terminal/embed.py", line 16, in <module>
+    from IPython.terminal.interactiveshell import TerminalInteractiveShell
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/terminal/interactiveshell.py", line 51, in <module>
+    from .debugger import TerminalPdb, Pdb
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/terminal/debugger.py", line 6, in <module>
+    from IPython.core.completer import IPCompleter
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/core/completer.py", line 220, in <module>
+    from IPython.core.guarded_eval import guarded_eval, EvaluationContext
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/IPython/core/guarded_eval.py", line 40, in <module>
+    from typing_extensions import TypeAliasType
+ImportError: cannot import name 'TypeAliasType' from 'typing_extensions' (/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/typing_extensions.py)
