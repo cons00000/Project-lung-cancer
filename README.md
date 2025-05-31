@@ -186,4 +186,7 @@ Here is how the classification is achieved given the size of the tumor.
 
 ![alt text](image.png)
 
+2. Integrated gradients 
+![alt text](image-1.png)
+
 
