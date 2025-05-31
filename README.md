@@ -128,6 +128,7 @@ The TNM staging system for lung cancer is used to describe the extent of cancer 
   <figcaption><b>Chart 1:</b> T-Stage distribution</figcaption>
 </figure>
 <br>
+
 There are also 3 patients whose T-stage is called "is".
 
 According to this array, all patient have a tumor. It can however be small.
