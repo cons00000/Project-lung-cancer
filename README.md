@@ -180,5 +180,10 @@ Here is how the classification is achieved given the size of the tumor.
 | G2-3       | 35    |
 | G3         | 62    |
 
+# Explainability (using the Xplique library)
+
+1. Saliency 
+
+![alt text](image.png)
 
 
