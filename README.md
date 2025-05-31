@@ -127,7 +127,7 @@ The TNM staging system for lung cancer is used to describe the extent of cancer 
   <img src="chart2.svg" alt="T-Stage distribution" />
   <figcaption><b>Chart 1:</b> T-Stage distribution</figcaption>
 </figure>
-
+<br>
 There are also 3 patients whose T-stage is called "is".
 
 According to this array, all patient have a tumor. It can however be small.
@@ -150,7 +150,7 @@ Here is how the classification is achieved given the size of the tumor.
   <img src="chart1.svg" alt="N-Stage distribution" />
   <figcaption><b>Chart 2:</b> N-Stage distribution</figcaption>
 </figure>
-
+<br>
 
 ## M-Stage Distribution
 
@@ -158,7 +158,7 @@ Here is how the classification is achieved given the size of the tumor.
   <img src="chart3.svg" alt="M-Stage distribution" />
   <figcaption><b>Chart 3:</b> M-Stage distribution</figcaption>
 </figure>
-
+<br>
 
 1.b) **Histopathological Grading**
 
@@ -168,6 +168,7 @@ Here is how the classification is achieved given the size of the tumor.
   <img src="chart4.svg" alt="Histopathological Grading" />
   <figcaption><b>Chart 3:</b> Histopathological Grading</figcaption>
 </figure>
+<br>
 
 # Explainability (using the Xplique library)
 
