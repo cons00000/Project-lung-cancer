@@ -122,20 +122,11 @@ The TNM staging system for lung cancer is used to describe the extent of cancer 
 - M (Metastasis): Specifies whether cancer has spread to distant organs (M0 indicates no distant spread, M1 indicates metastasis).
 
 ## T-Stage Distribution
-| Stage | Count |
-|-------|-------|
-| 1     | 2     |
-| 1a    | 9     |
-| 1b    | 29    |
-| 1c    | 127   |
-| 2     | 53    |
-| 2a    | 37    |
-| 2b    | 15    |
-| 3     | 57    |
-| 4     | 23    |
-| is    | 3     |
 
 ![T-Stage distribution](chart2.svg)
+**Chart 1: ** T-Stage distribution
+
+There are also 3 patients whose T-stage is called "is".
 
 According to this array, all patient have a tumor. It can however be small.
 
@@ -152,41 +143,21 @@ Here is how the classification is achieved given the size of the tumor.
 | T4      | > 7 cm (> 70 mm)             |
 
 ## N-Stage Distribution
-| Stage | Count |
-|-------|-------|
-| 0     | 184   |
-| 1     | 85    |
-| 2     | 8     |
-| 3     | 78    |
 
 ![N-Stage distribution](chart1.svg)
+**Chart 2: ** N-Stage distribution
 
 ## M-Stage Distribution
-| Stage | Count |
-|-------|-------|
-| 0     | 230   |
-| 1     | 53    |
-| 1a    | 30    |
-| 1b    | 26    |
-| 1c    | 13    |
-| 2     | 1     |
-| 3     | 2     |
 
 ![M-Stage distribution](chart3.svg)
+**Chart 3: ** M-Stage distribution
 
 1.b) **Histopathological Grading**
 
 ## Histopathological Grading
-| Grade      | Count |
-|------------|-------|
-| nan        | 210   |
-| G1         | 12    |
-| G1-G2      | 11    |
-| G2         | 27    |
-| G2-3       | 35    |
-| G3         | 62    |
 
 ![Hispatological grading](chart4.svg)
+**Chart 4: ** Hispatological grading
 
 # Explainability (using the Xplique library)
 
