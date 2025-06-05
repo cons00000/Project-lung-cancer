@@ -173,10 +173,60 @@ Here is how the classification is achieved given the size of the tumor.
 
 # Explainability (using the Xplique library)
 
-1. Saliency 
+<figure>
+  <img src="output.png" alt="Model segmentation" />
+  <figcaption><b>Image 1: </b>Model segmentation on the middle slice</figcaption>
+</figure>
+<br>
 
+1. Saliency
+
+<figure>
+  <img src="saliencyoutput.png" alt="Saliency explanation" />
+  <figcaption><b>Image 2: </b>Saliency explanation</figcaption>
+</figure>
+<br>
 
 2. Integrated gradients 
 
+<figure>
+  <img src="piquet_con/Project-lung-cancer/integratedgradientsoutput.png" alt="Integrated gradients explanation" />
+  <figcaption><b>Image 3: </b>Integrated gradients explanation</figcaption>
+</figure>
+<br>
 
+3. Gradient input
 
+<figure>
+  <img src="piquet_con/Project-lung-cancer/gradientinputoutput.png" alt="Gradient input explanation" />
+  <figcaption><b>Image 4: </b>Gradient input explanation</figcaption>
+</figure>
+<br>
+
+4. Smooth grad
+<figure>
+  <img src="piquet_con/Project-lung-cancer/smoothgradoutput.png" alt="Smooth grad explanation" />
+  <figcaption><b>Image 5: </b>Smooth grad explanation</figcaption>
+</figure>
+<br>
+
+5. Sobol Attribution Method
+<figure>
+  <img src="piquet_con/Project-lung-cancer/SobolAttributionMethodoutput.png" alt="Sobol attribution method explanation" />
+  <figcaption><b>Image 6: </b>Sobol attribution method explanation</figcaption>
+</figure>
+<br>
+
+6. Square grad
+<figure>
+  <img src="piquet_con/Project-lung-cancer/squaregradoutput.png" alt="Square grad explanation" />
+  <figcaption><b>Image 7: </b>Square grad explanation</figcaption>
+</figure>
+<br>
+
+7. Var grad
+<figure>
+  <img src="piquet_con/Project-lung-cancer/vargradoutput.png" alt="Var grad explanation" />
+  <figcaption><b>Image 8: </b>Var grad explanation</figcaption>
+</figure>
+<br>
