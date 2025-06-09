@@ -84,23 +84,9 @@ project-lung-cancer/
 │   │   ├── TheDuneAI.py
 │   │   └── visualize_data.ipynb
 └── README.md                             
-
 ```
 
-## Usage
-1. **Data Preparation**: Run the data preparation notebook to process the raw CT and PET/CT scans
-```bash
-jupyter notebook src/Data_preparation/data_preparation.ipynb
-```
-
-2. **Segmentation**: Run the segmentation notebook to extract lung regions and identify tumors
-```bash
-jupyter notebook src/Segmentation/Segmentation.ipynb
-```
-
-## Results
-
-1. **Analysis, presentation et exploration of the data** 
+## Analysis, presentation et exploration of the data
 
 # Lung Cancer Dataset Summary
 
@@ -114,7 +100,7 @@ The information about the patients has two components: the TNM staging on the on
 | **Depends on**         | Imaging, biopsies, surgery               | Microscopic examination                    |
 | **More important for** | Surgical resectability, radiation fields | Chemotherapy response prediction           |
 
-1.a) **TNM Staging**
+1. **TNM Staging**
 
 The TNM staging system for lung cancer is used to describe the extent of cancer in a patient's body. It is based on three components:
 - T (Tumor): Describes the size and extent of the primary tumor (T0 to T4, with higher numbers indicating larger or more invasive tumors).
@@ -161,7 +147,7 @@ Here is how the classification is achieved given the size of the tumor.
 </figure>
 <br>
 
-1.b) **Histopathological Grading**
+2. **Histopathological Grading**
 
 ## Histopathological Grading
 
@@ -171,62 +157,155 @@ Here is how the classification is achieved given the size of the tumor.
 </figure>
 <br>
 
-# Explainability (using the Xplique library)
+# DuneAI Model Results
+
+## Model Overview
+
+**DuneAI** is a deep learning model for automated detection and segmentation of non-small cell lung cancer (NSCLC) in computed tomography images.
+
+### Input Requirements
+- **Input format**: NRRD files
+- **Preprocessing**: DICOM to NRRD conversion using the precision-medicine-toolbox
+
+### Dependencies
+
+This model utilizes the [precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox), an open-source Python package for medical imaging data preparation and radiomics analysis.
+
+**Citation for toolbox:**
+```
+Primakov, Sergey, Elizaveta Lavrova, Zohaib Salahuddin, Henry C. Woodruff, and Philippe Lambin. 
+"Precision-medicine-toolbox: An open-source python package for facilitation of quantitative medical 
+imaging and radiomics analysis." arXiv preprint arXiv:2202.13965 (2022).
+```
+
+### Model Implementation
+
+The DuneAI model is based on the methodology described in:
+
+```
+Primakov, S.P., Ibrahim, A., van Timmeren, J.E. et al. 
+Automated detection and segmentation of non-small cell lung cancer computed tomography images. 
+Nat Commun 13, 3423 (2022). https://doi.org/10.1038/s41467-022-30841-3
+```
+
+## Results
+
+### Sample Patient Analysis
 
 <figure>
   <img src="output.png" alt="Model segmentation" />
-  <figcaption><b>Image 1: </b>Model segmentation on the middle slice</figcaption>
+  <figcaption><b>Figure 1:</b> Model segmentation results on the middle slice</figcaption>
 </figure>
-<br>
 
-1. Saliency
+## Model Explainability Analysis
+
+Using the [Xplique library](https://github.com/deel-ai/xplique), we performed comprehensive explainability analysis to understand model decision-making patterns. These methods help us visualize which parts of the medical images the AI model focuses on when making predictions.
+
+### 1. Saliency Maps
+**What it does:** Calculates the gradient of the output with respect to the input image to identify which pixels have the strongest influence on the model's prediction.
+
+**How to interpret:** Brighter regions indicate areas where small changes would most affect the model's output. This shows us the most "important" pixels for the decision.
 
 <figure>
   <img src="saliencyoutput.png" alt="Saliency explanation" />
-  <figcaption><b>Image 2: </b>Saliency explanation</figcaption>
+  <figcaption><b>Figure 2:</b> Saliency-based feature attribution - highlights the most influential pixels</figcaption>
 </figure>
-<br>
 
-2. Integrated gradients 
+### 2. Integrated Gradients
+**What it does:** Integrates gradients along a straight path from a baseline (usually a black image) to the actual input image. This provides a more stable and theoretically grounded attribution method.
+
+**How to interpret:** Shows cumulative importance of features along the path from baseline to input. More reliable than simple gradients as it satisfies important mathematical properties like sensitivity and implementation invariance.
 
 <figure>
   <img src="integratedgradientsoutput.png" alt="Integrated gradients explanation" />
-  <figcaption><b>Image 3: </b>Integrated gradients explanation</figcaption>
+  <figcaption><b>Figure 3:</b> Integrated gradients attribution - provides stable feature importance scores</figcaption>
 </figure>
-<br>
 
-3. Gradient input
+### 3. Gradient × Input
+**What it does:** Multiplies the gradient of the output with respect to the input by the input values themselves. This combines information about both the sensitivity and the actual pixel intensities.
+
+**How to interpret:** Highlights regions that are both sensitive to changes AND have significant pixel values. This method emphasizes actual image content rather than just sensitivity.
 
 <figure>
   <img src="gradientinputoutput.png" alt="Gradient input explanation" />
-  <figcaption><b>Image 4: </b>Gradient input explanation</figcaption>
+  <figcaption><b>Figure 4:</b> Gradient × Input attribution - combines sensitivity with actual pixel values</figcaption>
 </figure>
-<br>
 
-4. Smooth grad
+### 4. SmoothGrad
+**What it does:** Reduces noise in gradient-based explanations by averaging gradients computed on multiple noisy versions of the input image.
+
+**How to interpret:** Provides cleaner, less noisy visualizations compared to vanilla gradients. The smoothing helps reveal the true underlying patterns the model uses for decisions.
+
 <figure>
   <img src="smoothgradoutput.png" alt="Smooth grad explanation" />
-  <figcaption><b>Image 5: </b>Smooth grad explanation</figcaption>
+  <figcaption><b>Figure 5:</b> SmoothGrad attribution - noise-reduced gradient visualization</figcaption>
 </figure>
-<br>
 
-5. Sobol Attribution Method
+### 5. Sobol Attribution Method
+**What it does:** Uses Sobol indices from global sensitivity analysis to measure the contribution of each input feature. This method considers interactions between different image regions.
+
+**How to interpret:** Shows not just individual pixel importance, but also how different image regions work together to influence the prediction. Particularly useful for understanding complex feature interactions.
+
 <figure>
   <img src="SobolAttributionMethodoutput.png" alt="Sobol attribution method explanation" />
-  <figcaption><b>Image 6: </b>Sobol attribution method explanation</figcaption>
+  <figcaption><b>Figure 6:</b> Sobol attribution - analyzes feature interactions and global sensitivity</figcaption>
 </figure>
-<br>
 
-6. Square grad
+### 6. SquareGrad
+**What it does:** Squares the gradients to emphasize larger gradient values while removing the sign information. This highlights the most significant changes regardless of direction.
+
+**How to interpret:** Focuses attention on regions with the strongest influence, regardless of whether that influence is positive or negative. Useful for identifying the most critical decision-making areas.
+
 <figure>
   <img src="squaregradoutput.png" alt="Square grad explanation" />
-  <figcaption><b>Image 7: </b>Square grad explanation</figcaption>
+  <figcaption><b>Figure 7:</b> SquareGrad attribution - emphasizes strongest influences regardless of direction</figcaption>
 </figure>
-<br>
 
-7. Var grad
+### 7. VarGrad
+**What it does:** Computes the variance of gradients across multiple noisy samples of the input. This measures the stability of the gradient explanations.
+
+**How to interpret:** High variance regions indicate areas where the model's sensitivity is unstable or uncertain. Low variance regions show where the model consistently focuses attention.
+
 <figure>
   <img src="vargradoutput.png" alt="Var grad explanation" />
-  <figcaption><b>Image 8: </b>Var grad explanation</figcaption>
+  <figcaption><b>Figure 8:</b> VarGrad attribution - measures stability of gradient-based explanations</figcaption>
 </figure>
-<br>
+
+### Why Multiple Methods?
+Each explainability method has strengths and limitations. By using multiple approaches, we can:
+- **Cross-validate findings**: Consistent patterns across methods indicate reliable model behavior
+- **Understand different aspects**: Some methods show raw sensitivity, others show stability or feature interactions
+- **Build confidence**: Multiple complementary explanations provide a more complete picture of model decision-making
+
+## Model Performance Statistics
+
+### Performance Metrics
+
+<figure>
+  <img src="confusionmatrixoutput.png" alt="Confusion Matrix" />
+  <figcaption><b>Figure 9:</b> Model confusion matrix showing classification performance</figcaption>
+</figure>
+
+<figure>
+  <img src="distributionerrorsoutput.png" alt="Error Distribution" />
+  <figcaption><b>Figure 10:</b> Distribution of model prediction errors</figcaption>
+</figure>
+
+## Known Issues and Limitations
+
+⚠️ **Data Quality Issues Identified:**
+
+1. **Corrupted Files**: Some input files were corrupted and could not be processed
+2. **Missing Z-Spacing**: Several files were missing z-spacing metadata
+   - **Default value applied**: 1.0 mm
+   - **Impact**: May affect accuracy of volumetric measurements and 3D reconstructions
+
+### Recommendations for Future Work
+
+- Implement robust data validation pipeline to identify corrupted files early
+- Develop automatic z-spacing estimation methods for files with missing metadata
+- Consider data imputation strategies for missing spatial information
+
+## Usage Notes
+
+Before using this model, ensure your DICOM files are properly converted to NRRD format and contain complete spatial metadata to achieve optimal performance.
