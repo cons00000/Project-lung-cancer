@@ -199,23 +199,25 @@ To understand *how* the model produced this segmentation, we generated attributi
 #### Focus on the middle slice (18)
 
 <p align="center">
-  <!-- Row 1: 4 images -->
-  <img src="Figures/gradientinput18.png" width="200">
-  <img src="Figures/integratedgradient18.png" width="200">
-  <img src="Figures/saliency18.png" width="200">
-  <img src="Figures/smoothgrad18.png" width="200"><br>
+  <!-- Row 1 -->
+  <img src="Figures/gradientinput18.png" width="220">
+  <img src="Figures/integratedgradient18.png" width="220">
+  <img src="Figures/saliency18.png" width="220"><br>
   <em>
-    (a) Gradient input (b) Integrated gradient 
-    (c) Saliency (d) SmoothGrad
+    (a) Gradient input (b) Integrated gradient (c) Saliency
   </em><br><br>
 
-  <!-- Row 2: 3 images -->
+  <!-- Row 2 -->
+  <img src="Figures/smoothgrad18.png" width="220">
   <img src="Figures/sobol18.png" width="220">
-  <img src="Figures/vargrad18.png" width="220">
-  <img src="Figures/squaregrad18.png" width="220"><br>
+  <img src="Figures/vargrad18.png" width="220"><br>
   <em>
-    (e) Sobol attribution (f) VarGrad (g) SquareGrad
-  </em>
+    (d) SmoothGrad (e) Sobol attribution (f) VarGrad
+  </em><br><br>
+
+  <!-- Row 3 -->
+  <img src="Figures/squaregrad18.png" width="220"><br>
+  <em>(g) SquareGrad</em>
 </p>
 
 
