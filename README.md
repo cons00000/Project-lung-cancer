@@ -198,56 +198,148 @@ To understand *how* the model produced this segmentation, we generated attributi
 
 #### Focus on the middle slice (18)
 
-<figure style="text-align: center;">
-  <div style="
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    gap: 30px;
-    justify-content: center;
-  ">
-    <!-- Subfigure 5a -->
-    <div>
-      <img src="Figures/gradientinput18.png" alt="Gradient input" style="width: 200px; height: auto;">
-      <p style="font-style: italic; margin-top: 8px;">(a) Gradient input</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attribution Methods Figure</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #24292f;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        figure {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            justify-items: center;
+            max-width: 700px;
+            margin: 0 auto 1rem auto;
+        }
+        
+        .subfigure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .subfigure img {
+            width: 200px;
+            height: auto;
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .subfigure p {
+            font-style: italic;
+            margin-top: 8px;
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #656d76;
+        }
+        
+        figcaption {
+            margin-top: 1rem;
+            font-size: 14px;
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #24292f;
+        }
+        
+        figcaption b {
+            font-weight: 600;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                max-width: 500px;
+            }
+            
+            .subfigure img {
+                width: 180px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                max-width: 300px;
+            }
+            
+            .subfigure img {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <figure>
+            <div class="grid-container">
+                <!-- Subfigure 5a -->
+                <div class="subfigure">
+                    <img src="Figures/gradientinput18.png" alt="Gradient input">
+                    <p>(a) Gradient input</p>
+                </div>
+                <!-- Subfigure 5b -->
+                <div class="subfigure">
+                    <img src="Figures/integratedgradient18.png" alt="Integrated gradient">
+                    <p>(b) Integrated gradient</p>
+                </div>
+                <!-- Subfigure 5c -->
+                <div class="subfigure">
+                    <img src="Figures/saliency18.png" alt="Saliency">
+                    <p>(c) Saliency</p>
+                </div>
+                <!-- Subfigure 5d -->
+                <div class="subfigure">
+                    <img src="Figures/smoothgrad18.png" alt="SmoothGrad">
+                    <p>(d) SmoothGrad</p>
+                </div>
+                <!-- Subfigure 5e -->
+                <div class="subfigure">
+                    <img src="Figures/sobol18.png" alt="Sobol attribution">
+                    <p>(e) Sobol attribution</p>
+                </div>
+                <!-- Subfigure 5f -->
+                <div class="subfigure">
+                    <img src="Figures/vargrad18.png" alt="VarGrad">
+                    <p>(f) VarGrad</p>
+                </div>
+            </div>
+            
+            <figcaption>
+                <b>Figure 12:</b> Attribution method visualizations: 
+                (a) Gradient input, (b) Integrated gradient, (c) Saliency, 
+                (d) SmoothGrad, (e) Sobol attribution, (f) VarGrad
+            </figcaption>
+        </figure>
     </div>
-
-    <!-- Subfigure 5b -->
-    <div>
-      <img src="Figures/integratedgradient18.png" alt="Integrated gradient" style="width: 200px; height: auto;">
-      <p style="font-style: italic; margin-top: 8px;">(b) Integrated gradient</p>
-    </div>
-
-    <!-- Subfigure 5c -->
-    <div>
-      <img src="Figures/saliency18.png" alt="Saliency" style="width: 200px; height: auto;">
-      <p style="font-style: italic; margin-top: 8px;">(c) Saliency</p>
-    </div>
-
-    <!-- Subfigure 5d -->
-    <div>
-      <img src="Figures/smoothgrad18.png" alt="SmoothGrad" style="width: 200px; height: auto;">
-      <p style="font-style: italic; margin-top: 8px;">(d) SmoothGrad</p>
-    </div>
-
-    <!-- Subfigure 5e -->
-    <div>
-      <img src="Figures/sobol18.png" alt="Sobol attribution" style="width: 200px; height: auto;">
-      <p style="font-style: italic; margin-top: 8px;">(e) Sobol attribution</p>
-    </div>
-
-    <!-- Subfigure 5f -->
-    <div>
-      <img src="Figures/vargrad18.png" alt="VarGrad" style="width: 200px; height: auto;">
-      <p style="font-style: italic; margin-top: 8px;">(f) VarGrad</p>
-    </div>
-  </div>
-
-  <figcaption style="margin-top: 1rem;">
-    <b>Figure 12:</b> Attribution method visualizations: 
-    (a) Gradient input, (b) Integrated gradient, (c) Saliency, 
-    (d) SmoothGrad, (e) Sobol attribution, (f) VarGrad
-  </figcaption>
-</figure>
+</body>
+</html>
 
 ## Performance evaluation
 
