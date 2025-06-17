@@ -115,13 +115,37 @@ Our analysis is grounded in the clinical **TNM Staging System**.
   <b>Figure 1:</b> T-Stage Distribution &nbsp;&nbsp;&nbsp;&nbsp; <b>Figure 2:</b> N-Stage Distribution &nbsp;&nbsp;&nbsp;&nbsp; <b>Figure 3:</b> M-Stage Distribution
 </p>
 
+## Model Overview
+
+**DuneAI** is a deep learning model for automated detection and segmentation of non-small cell lung cancer (NSCLC) in computed tomography images.
+
+### Input Requirements
+- **Input format**: NRRD files
+- **Preprocessing**: DICOM to NRRD conversion using the precision-medicine-toolbox
+
+### Dependencies
+
+This model utilizes the [precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox), an open-source Python package for medical imaging data preparation and radiomics analysis.
+
+**Citation for toolbox:**
+```
+Primakov, Sergey, Elizaveta Lavrova, Zohaib Salahuddin, Henry C. Woodruff, and Philippe Lambin. 
+"Precision-medicine-toolbox: An open-source python package for facilitation of quantitative medical 
+imaging and radiomics analysis." arXiv preprint arXiv:2202.13965 (2022).
+```
+
+### Model Implementation
+
+The DuneAI model is based on the methodology described in:
+
+```
+Primakov, S.P., Ibrahim, A., van Timmeren, J.E. et al. 
+Automated detection and segmentation of non-small cell lung cancer computed tomography images. 
+Nat Commun 13, 3423 (2022). https://doi.org/10.1038/s41467-022-30841-3
+```
+
 ## Model analysis and explainability
-
-### Segmentation results
-We utilized **DuneAI**, a pre-trained deep learning model for automated segmentation of non-small cell lung cancer (NSCLC).
-
-- **DuneAI Paper:** Primakov, S.P., et al. *Nat Commun* 13, 3423 (2022).
-- **Toolbox Used:** [precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox)
+### Segmentation results on the middle slice
 
 <p align="center">
   <img src="Figures/output.png" alt="Model segmentation" width="70%"/>
@@ -174,55 +198,53 @@ To understand *how* the model produced this segmentation, we generated attributi
 
 #### Focus on the middle slice (18)
 
-<p align="center">
-  <img src="Figures/output.png" alt="Model segmentation" width="70%"/>
-  <br>
-  <b>Figure 4:</b> DuneAI segmentation results on a sample patient's middle CT slice.
-</p>
-
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-  <!-- Column 1 -->
-  <div style="flex: 1; min-width: 300px;">
-    <!-- Figure 1 -->
-    <div style="text-align: center; margin-bottom: 30px;">
-      <img src="Figures/gradientinput18.png" alt="Figure 12" style="width: 100%; max-width: 400px;">
-      <p style="font-style: italic; margin-top: 8px;">Fig. 1: Gradient input</p>
+<!-- Composite Figure 5 with subfigures -->
+<figure style="text-align: center;">
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+    <!-- Column 1 -->
+    <div style="flex: 1; min-width: 300px;">
+      <!-- Subfigure 5a -->
+      <div style="margin-bottom: 30px;">
+        <img src="Figures/gradientinput18.png" alt="Gradient input" style="width: 100%; max-width: 400px;">
+        <p style="font-style: italic; margin-top: 8px;">(a) Gradient input</p>
+      </div>
+      
+      <!-- Subfigure 5b -->
+      <div style="margin-bottom: 30px;">
+        <img src="Figures/integratedgradient18.png" alt="Integrated gradient" style="width: 100%; max-width: 400px;">
+        <p style="font-style: italic; margin-top: 8px;">(b) Integrated gradient</p>
+      </div>
+      
+      <!-- Subfigure 5c -->
+      <div style="margin-bottom: 30px;">
+        <img src="Figures/saliency18.png" alt="Saliency" style="width: 100%; max-width: 400px;">
+        <p style="font-style: italic; margin-top: 8px;">(c) Saliency</p>
+      </div>
     </div>
     
-    <!-- Figure 2 -->
-    <div style="text-align: center; margin-bottom: 30px;">
-      <img src="Figures/integratedgradient18.png" alt="Figure 2" style="width: 100%; max-width: 400px;">
-      <p style="font-style: italic; margin-top: 8px;">Fig. 2: Integrated gradient</p>
-    </div>
-    
-    <!-- Figure 3 -->
-    <div style="text-align: center; margin-bottom: 30px;">
-      <img src="Figures/saliency18.png" alt="Figure 3" style="width: 100%; max-width: 400px;">
-      <p style="font-style: italic; margin-top: 8px;">Fig. 3: Saliency</p>
+    <!-- Column 2 -->
+    <div style="flex: 1; min-width: 300px;">
+      <!-- Subfigure 5d -->
+      <div style="margin-bottom: 30px;">
+        <img src="Figures/smoothgrad18.png" alt="SmoothGrad" style="width: 100%; max-width: 400px;">
+        <p style="font-style: italic; margin-top: 8px;">(d) SmoothGrad</p>
+      </div>
+      
+      <!-- Subfigure 5e -->
+      <div style="margin-bottom: 30px;">
+        <img src="Figures/sobol18.png" alt="Sobol attribution" style="width: 100%; max-width: 400px;">
+        <p style="font-style: italic; margin-top: 8px;">(e) Sobol attribution</p>
+      </div>
+      
+      <!-- Subfigure 5f -->
+      <div style="margin-bottom: 30px;">
+        <img src="Figures/vargrad18.png" alt="VarGrad" style="width: 100%; max-width: 400px;">
+        <p style="font-style: italic; margin-top: 8px;">(f) VarGrad</p>
+      </div>
     </div>
   </div>
-  
-  <!-- Column 2 -->
-  <div style="flex: 1; min-width: 300px;">
-    <!-- Figure 4 -->
-    <div style="text-align: center; margin-bottom: 30px;">
-      <img src="Figures/smoothgrad18.png" alt="Figure 4" style="width: 100%; max-width: 400px;">
-      <p style="font-style: italic; margin-top: 8px;">Fig. 4: SmoothGrad</p>
-    </div>
-    
-    <!-- Figure 5 -->
-    <div style="text-align: center; margin-bottom: 30px;">
-      <img src="Figures/sobol18.png" alt="Figure 5" style="width: 100%; max-width: 400px;">
-      <p style="font-style: italic; margin-top: 8px;">Fig. 5: Sobol attribution</p>
-    </div>
-    
-    <!-- Figure 6 -->
-    <div style="text-align: center; margin-bottom: 30px;">
-      <img src="Figures/vargrad18.png" alt="Figure 6" style="width: 100%; max-width: 400px;">
-      <p style="font-style: italic; margin-top: 8px;">Fig. 6: VarGrad</p>
-    </div>
-  </div>
-</div>
+  <figcaption style="margin-top: 1rem;"><b>Figure 12:</b> Attribution method visualizations: (a) Gradient input, (b) Integrated gradient, (c) Saliency, (d) SmoothGrad, (e) Sobol attribution, (f) VarGrad</figcaption>
+</figure>
 
 ## Performance evaluation
 
