@@ -199,21 +199,22 @@ To understand *how* the model produced this segmentation, we generated attributi
 #### Focus on the middle slice (18)
 
 <p align="center">
-  <img src="Figures/gradientinput18.png" width="150">
-  <img src="Figures/integratedgradient18.png" width="150"><br>
+  <img src="Figures/gradientinput18.png" width="300">
+  <img src="Figures/integratedgradient18.png" width="300"><br>
   <em>(a) Gradient input (b) Integrated gradient</em><br><br>
 
-  <img src="Figures/saliency18.png" width="150">
-  <img src="Figures/smoothgrad18.png" width="150"><br>
+  <img src="Figures/saliency18.png" width="300">
+  <img src="Figures/smoothgrad18.png" width="300"><br>
   <em>(c) Saliency (d) SmoothGrad</em><br><br>
 
-  <img src="Figures/sobol18.png" width="150">
-  <img src="Figures/vargrad18.png" width="150"><br>
-  <em>(e) Sobol attribution (f) VarGrad</em><br>
+  <img src="Figures/sobol18.png" width="300">
+  <img src="Figures/vargrad18.png" width="300"><br>
+  <em>(e) Sobol attribution (f) VarGrad</em><br><br>
 
-  <img src="FFigures/squaregrad18.png" width="150"><br>
-  <em>(g) SquareGrad </em>
+  <img src="Figures/squaregrad18.png" width="300"><br>
+  <em>(g) SquareGrad</em>
 </p>
+
 
 **Figure 12:** Attribution method visualizations.
 
