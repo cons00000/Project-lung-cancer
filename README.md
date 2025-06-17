@@ -199,43 +199,55 @@ To understand *how* the model produced this segmentation, we generated attributi
 #### Focus on the middle slice (18)
 
 <figure style="text-align: center;">
-  <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-    <!-- Column 1 -->
-    <div style="flex: 1 1 200px; max-width: 220px;">
-      <div style="margin-bottom: 24px;">
-        <img src="Figures/gradientinput18.png" alt="Gradient input" style="width: 200px; height: auto;">
-        <p style="font-style: italic; margin-top: 8px;">(a) Gradient input</p>
-      </div>
-      <div style="margin-bottom: 24px;">
-        <img src="Figures/integratedgradient18.png" alt="Integrated gradient" style="width: 200px; height: auto;">
-        <p style="font-style: italic; margin-top: 8px;">(b) Integrated gradient</p>
-      </div>
-      <div style="margin-bottom: 24px;">
-        <img src="Figures/saliency18.png" alt="Saliency" style="width: 200px; height: auto;">
-        <p style="font-style: italic; margin-top: 8px;">(c) Saliency</p>
-      </div>
+  <div style="
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 30px;
+    justify-content: center;
+  ">
+    <!-- Subfigure 5a -->
+    <div>
+      <img src="Figures/gradientinput18.png" alt="Gradient input" style="width: 200px; height: auto;">
+      <p style="font-style: italic; margin-top: 8px;">(a) Gradient input</p>
     </div>
 
-    <!-- Column 2 -->
-    <div style="flex: 1 1 200px; max-width: 220px;">
-      <div style="margin-bottom: 24px;">
-        <img src="Figures/smoothgrad18.png" alt="SmoothGrad" style="width: 200px; height: auto;">
-        <p style="font-style: italic; margin-top: 8px;">(d) SmoothGrad</p>
-      </div>
-      <div style="margin-bottom: 24px;">
-        <img src="Figures/sobol18.png" alt="Sobol attribution" style="width: 200px; height: auto;">
-        <p style="font-style: italic; margin-top: 8px;">(e) Sobol attribution</p>
-      </div>
-      <div style="margin-bottom: 24px;">
-        <img src="Figures/vargrad18.png" alt="VarGrad" style="width: 200px; height: auto;">
-        <p style="font-style: italic; margin-top: 8px;">(f) VarGrad</p>
-      </div>
+    <!-- Subfigure 5b -->
+    <div>
+      <img src="Figures/integratedgradient18.png" alt="Integrated gradient" style="width: 200px; height: auto;">
+      <p style="font-style: italic; margin-top: 8px;">(b) Integrated gradient</p>
+    </div>
+
+    <!-- Subfigure 5c -->
+    <div>
+      <img src="Figures/saliency18.png" alt="Saliency" style="width: 200px; height: auto;">
+      <p style="font-style: italic; margin-top: 8px;">(c) Saliency</p>
+    </div>
+
+    <!-- Subfigure 5d -->
+    <div>
+      <img src="Figures/smoothgrad18.png" alt="SmoothGrad" style="width: 200px; height: auto;">
+      <p style="font-style: italic; margin-top: 8px;">(d) SmoothGrad</p>
+    </div>
+
+    <!-- Subfigure 5e -->
+    <div>
+      <img src="Figures/sobol18.png" alt="Sobol attribution" style="width: 200px; height: auto;">
+      <p style="font-style: italic; margin-top: 8px;">(e) Sobol attribution</p>
+    </div>
+
+    <!-- Subfigure 5f -->
+    <div>
+      <img src="Figures/vargrad18.png" alt="VarGrad" style="width: 200px; height: auto;">
+      <p style="font-style: italic; margin-top: 8px;">(f) VarGrad</p>
     </div>
   </div>
-  <figcaption style="margin-top: 1rem;"><b>Figure 12:</b> Attribution method visualizations: (a) Gradient input, (b) Integrated gradient, (c) Saliency, (d) SmoothGrad, (e) Sobol attribution, (f) VarGrad</figcaption>
+
+  <figcaption style="margin-top: 1rem;">
+    <b>Figure 12:</b> Attribution method visualizations: 
+    (a) Gradient input, (b) Integrated gradient, (c) Saliency, 
+    (d) SmoothGrad, (e) Sobol attribution, (f) VarGrad
+  </figcaption>
 </figure>
-
-
 
 ## Performance evaluation
 
