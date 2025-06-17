@@ -198,76 +198,22 @@ To understand *how* the model produced this segmentation, we generated attributi
 
 #### Focus on the middle slice (18)
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attribution Methods Visualization</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <figure style="text-align: center; margin: 0;">
-            <div style="
-                display: grid;
-                grid-template-columns: repeat(2, auto);
-                gap: 30px;
-                justify-content: center;
-            ">
-                <!-- Subfigure 5a -->
-                <div>
-                    <canvas id="gradientInput" width="200" height="200" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
-                    <p style="font-style: italic; margin-top: 8px; margin-bottom: 0;">(a) Gradient input</p>
-                </div>
-                <!-- Subfigure 5b -->
-                <div>
-                    <canvas id="integratedGradient" width="200" height="200" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
-                    <p style="font-style: italic; margin-top: 8px; margin-bottom: 0;">(b) Integrated gradient</p>
-                </div>
-                <!-- Subfigure 5c -->
-                <div>
-                    <canvas id="saliency" width="200" height="200" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
-                    <p style="font-style: italic; margin-top: 8px; margin-bottom: 0;">(c) Saliency</p>
-                </div>
-                <!-- Subfigure 5d -->
-                <div>
-                    <canvas id="smoothgrad" width="200" height="200" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
-                    <p style="font-style: italic; margin-top: 8px; margin-bottom: 0;">(d) SmoothGrad</p>
-                </div>
-                <!-- Subfigure 5e -->
-                <div>
-                    <canvas id="sobol" width="200" height="200" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
-                    <p style="font-style: italic; margin-top: 8px; margin-bottom: 0;">(e) Sobol attribution</p>
-                </div>
-                <!-- Subfigure 5f -->
-                <div>
-                    <canvas id="vargrad" width="200" height="200" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
-                    <p style="font-style: italic; margin-top: 8px; margin-bottom: 0;">(f) VarGrad</p>
-                </div>
-            </div>
-            <figcaption style="margin-top: 1rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
-                <b>Figure 12:</b> Attribution method visualizations: 
-                (a) Gradient input, (b) Integrated gradient, (c) Saliency, 
-                (d) SmoothGrad, (e) Sobol attribution, (f) VarGrad
-            </figcaption>
-        </figure>
-    </div>
+<p align="center">
+  <img src="images/gradient_input.png" width="150">
+  <img src="images/integrated_gradient.png" width="150"><br>
+  <em>(a) Gradient input (b) Integrated gradient</em><br><br>
+
+  <img src="images/saliency.png" width="150">
+  <img src="images/smoothgrad.png" width="150"><br>
+  <em>(c) Saliency (d) SmoothGrad</em><br><br>
+
+  <img src="images/sobol.png" width="150">
+  <img src="images/vargrad.png" width="150"><br>
+  <em>(e) Sobol attribution (f) VarGrad</em>
+</p>
+
+**Figure 12:** Attribution method visualizations.
+
 
 ## Performance evaluation
 
