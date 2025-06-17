@@ -200,10 +200,10 @@ To understand *how* the model produced this segmentation, we generated attributi
 
 <p align="center">
   <!-- Row 1: 4 images -->
-  <img src="Figures/gradientinput18.png" width="220">
-  <img src="Figures/integratedgradient18.png" width="220">
-  <img src="Figures/saliency18.png" width="220">
-  <img src="Figures/smoothgrad18.png" width="220"><br>
+  <img src="Figures/gradientinput18.png" width="200">
+  <img src="Figures/integratedgradient18.png" width="200">
+  <img src="Figures/saliency18.png" width="200">
+  <img src="Figures/smoothgrad18.png" width="200"><br>
   <em>
     (a) Gradient input (b) Integrated gradient 
     (c) Saliency (d) SmoothGrad
