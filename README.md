@@ -1,14 +1,8 @@
 # Explainable AI for Lung Cancer Stage Classification
 
-<p align="center">
-  <img alt="Python Version" src="https://img.shields.io/badge/python-3.8+-blue.svg">
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-green.svg">
-  <img alt="Status" src="https://img.shields.io/badge/status-in%20progress-yellow.svg">
-</p>
-
 This project applies and analyzes a pre-trained deep learning model for lung cancer stage classification, with an emphasis on transparency through Explainable AI (XAI) techniques. By implementing post-hoc explanation methods, we gain crucial insights into the model's decision-making process, evaluating its clinical relevance and reliability.
 
-## Table of Contents
+## Table of contents
 - [Introduction](#introduction)
 - [Key Features](#key-features)
 - [Project Pipeline](#project-pipeline)
@@ -19,8 +13,6 @@ This project applies and analyzes a pre-trained deep learning model for lung can
 - [Model Analysis and Explainability](#model-analysis-and-explainability)
 - [Performance Evaluation](#performance-evaluation)
 - [Limitations and Future Work](#limitations-and-future-work)
-- [Citation](#citation)
-- [License](#license)
 
 ## Introduction
 
@@ -32,26 +24,25 @@ Our objectives are to:
 - Establish a reproducible framework for analyzing pre-trained medical imaging models.
 - Document best practices for applying XAI to evaluate model behavior in a clinical context.
 
-## Key Features
+## Key features
 - **End-to-End Inference Pipeline:** From data preprocessing and segmentation to prediction and explanation using a pre-trained model.
 - **State-of-the-Art Model Application:** Implements the **DuneAI** model for segmentation. An implementation for a second model (**UnSegMedGAT**) is included, though its pre-trained weights were not available.
 - **Deep Explainability:** Leverages a wide array of XAI techniques to provide a holistic view of the model's decision-making.
 - **Clinical Focus:** Grounds the analysis in established medical standards like TNM staging to assess practical utility.
 
-## Project Pipeline
+## Project pipeline
 
 Our methodology is an inference and analysis pipeline focused on a pre-trained model:
 
 **`Data Acquisition`** → **`Preprocessing & Segmentation`** → **`Prediction (Inference)`** → **`Explainability Analysis`**
 
-## Getting Started
+## Getting started
 
 ### Prerequisites
 - Python 3.8+
 - Conda ([Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://www.anaconda.com/products/distribution))
-- Git
 
-### Installation and Data Setup
+### Installation and data setup
 
 **Step 1: Clone the Repository**
 ```bash
@@ -85,7 +76,7 @@ This project uses the **Lung-PET-CT-Dx** dataset from TCIA.
     *   Open the NBIA Data Retriever, import the manifest file, and start the download.
 4.  **Organize Files:** Create a `NIH dataset_raw/` directory at the project root and place the downloaded clinical data file and the folder of patient images inside it.
 
-## Repository Structure
+## Repository structure
 ```
 project-lung-cancer/
 ├── NIH dataset_raw/              # Raw data goes here
@@ -105,7 +96,7 @@ Activate the correct Conda environment before running the Jupyter notebooks in e
 - **For data preparation:** `conda activate lung-dataprep`
 - **For segmentation and XAI:** `conda activate lung-segment`
 
-## Data Exploration: TNM Staging
+## Data exploration: TNM staging
 
 Our analysis is grounded in the clinical **TNM Staging System**.
 
@@ -114,79 +105,151 @@ Our analysis is grounded in the clinical **TNM Staging System**.
 | **Focus**              | Anatomical spread of the tumor            | Cellular appearance & aggressiveness       |
 | **Components**         | **T** (Tumor size), **N** (Nodes), **M** (Metastasis) | Differentiation (Grade G1-G3)              |
 
-### Dataset Distributions
+### Dataset distributions
 <p align="center">
-  <img src="chart2.svg" alt="T-Stage distribution" width="30%"/>
-  <img src="chart1.svg" alt="N-Stage distribution" width="30%"/>
-  <img src="chart3.svg" alt="M-Stage distribution" width="30%"/>
+  <img src="Figures/chart2.svg" alt="T-Stage distribution" width="30%"/>
+  <img src="Figures/chart1.svg" alt="N-Stage distribution" width="30%"/>
+  <img src="Figures/chart3.svg" alt="M-Stage distribution" width="30%"/>
 </p>
 <p align="center">
   <b>Figure 1:</b> T-Stage Distribution &nbsp;&nbsp;&nbsp;&nbsp; <b>Figure 2:</b> N-Stage Distribution &nbsp;&nbsp;&nbsp;&nbsp; <b>Figure 3:</b> M-Stage Distribution
 </p>
 
-## Model Analysis and Explainability
+## Model analysis and explainability
 
-### Segmentation Results
+### Segmentation results
 We utilized **DuneAI**, a pre-trained deep learning model for automated segmentation of non-small cell lung cancer (NSCLC).
 
 - **DuneAI Paper:** Primakov, S.P., et al. *Nat Commun* 13, 3423 (2022).
 - **Toolbox Used:** [precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox)
 
 <p align="center">
-  <img src="output.png" alt="Model segmentation" width="70%"/>
+  <img src="Figures/output.png" alt="Model segmentation" width="70%"/>
   <br>
   <b>Figure 4:</b> DuneAI segmentation results on a sample patient's middle CT slice.
 </p>
 
-### Explainable AI (XAI) Analysis
+### Classification results
 
-To understand *how* the model produced this segmentation, we generated attribution maps using various XAI methods from the [Xplique](https://github.com/deel-ai/xplique) library. Since segmentation is performed slice-by-slice, these explanations show which pixels were most influential for a given slice's prediction.
+#### Mapping from the tumor's predicted size to the T-stage
 
-#### Visual Explanation Array
+| T-Stage | Tumor Size                   |
+| ------- | ---------------------------- |
+| T1a     | ≤ 1 cm (≤ 10 mm)             |
+| T1b     | > 1 cm and ≤ 2 cm (11–20 mm) |
+| T1c     | > 2 cm and ≤ 3 cm (21–30 mm) |
+| T2a     | > 3 cm and ≤ 4 cm (31–40 mm) |
+| T2b     | > 4 cm and ≤ 5 cm (41–50 mm) |
+| T3      | > 5 cm and ≤ 7 cm (51–70 mm) |
+| T4      | > 7 cm (> 70 mm)             |
 
-| Method                   | Visualization                                                                                                                                                                                            |
-| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Saliency Map**         | <p align="center"><img src="saliencyoutput.png" alt="Saliency explanation" width="85%"><br><b>Figure 5:</b> Raw pixel influence.</p>                                                                         |
-| **Integrated Gradients** | <p align="center"><img src="integratedgradientsoutput.png" alt="Integrated Gradients explanation" width="85%"><br><b>Figure 6:</b> Stable, cumulative pixel importance.</p>                                  |
-| **Gradient × Input**     | <p align="center"><img src="gradientinputoutput.png" alt="Gradient x Input explanation" width="85%"><br><b>Figure 7:</b> Influence combined with pixel intensity.</p>                                       |
-| **SmoothGrad**           | <p align="center"><img src="smoothgradoutput.png" alt="SmoothGrad explanation" width="85%"><br><b>Figure 8:</b> Noise-reduced explanation.</p>                                                              |
-| **Sobol Attribution**    | <p align="center"><img src="SobolAttributionMethodoutput.png" alt="Sobol Attribution explanation" width="85%"><br><b>Figure 9:</b> Importance including feature interactions.</p>                           |
-| **SquareGrad**           | <p align="center"><img src="squaregradoutput.png" alt="SquareGrad explanation" width="85%"><br><b>Figure 10:</b> Magnitude of influence, regardless of direction.</p>                                      |
-| **VarGrad**              | <p align="center"><img src="vargradoutput.png" alt="VarGrad explanation" width="85%"><br><b>Figure 11:</b> Stability/uncertainty of the model's focus.</p>                                                 |
+To reconcile differences in label granularity between the source data and the model's predictions, a mapping convention was established. The ground truth dataset contained a general 'T2' label for some cases. For performance evaluation, these instances were consistently compared against the model's 'T2a' output.
 
-#### Interpretation and Comparison of XAI Methods
-No single XAI method tells the whole story. By comparing their outputs, we build a more robust and reliable understanding of the model's behavior.
+#### Performance evaluation
 
--   **Baseline Sensitivity (Saliency, Gradient × Input):** These methods (Fig. 5, 7) provide a direct but often noisy look at which pixels the model is sensitive to. They are useful as a starting point but can be misleading due to instability.
-
--   **Noise Reduction and Stability (SmoothGrad, Integrated Gradients):** SmoothGrad (Fig. 8) cleans up the noise from the basic Saliency map by averaging over slightly perturbed inputs, revealing a clearer underlying pattern. Integrated Gradients (Fig. 6) offers a more theoretically sound approach to attribution, providing a stable and reliable map of feature importance. Comparing Fig. 5 and Fig. 8 clearly shows the benefit of noise reduction.
-
--   **Focusing on Magnitude (SquareGrad):** SquareGrad (Fig. 10) is useful for identifying the most impactful regions without getting distracted by whether their influence is positive or negative. It helps confirm the absolute importance of the tumor area.
-
--   **Advanced Insights (Sobol, VarGrad):** These methods provide deeper analysis.
-    -   **Sobol Attribution (Fig. 9)** goes beyond individual pixels to show how *interactions* between different image regions contribute to the prediction.
-    -   **VarGrad (Fig. 11)** is unique because it measures the model's *consistency*. High-variance (brighter) areas indicate regions where the model's focus is unstable or uncertain, which could signal ambiguity in the input.
-
-**Comparative Synthesis:** By looking at all methods together, we can draw stronger conclusions. When the tumor region is consistently highlighted across Saliency, Integrated Gradients, and SmoothGrad, we gain confidence that the model is correctly focusing on the relevant pathology. If VarGrad shows low variance in that same area, it further strengthens our trust in the model's stability.
-
-## Performance Evaluation
 The model's classification performance was evaluated using standard metrics.
 
 <p align="center">
-  <img src="confusionmatrixoutput.png" alt="Confusion Matrix" width="45%"/>
-  <img src="distributionerrorsoutput.png" alt="Error Distribution" width="45%"/>
+  <img src="Figures/confusionmatrixoutput.png" alt="Confusion Matrix" width="45%"/>
+  <img src="Figures/distributionerrorsoutput.png" alt="Error Distribution" width="45%"/>
   <br>
   <b>Figure 12:</b> Confusion Matrix (left) and Distribution of Prediction Errors (right).
 </p>
 
-## Limitations and Future Work
+### Explainable AI (XAI) analysis
 
-### Known Issues
+To understand *how* the model produced this segmentation, we generated attribution maps using various XAI methods from the [Xplique](https://github.com/deel-ai/xplique) library. Since segmentation is performed slice-by-slice, these explanations show which pixels were most influential for a given slice's prediction.
+
+#### The whole Explanation Array
+
+| Method                   | Visualization                                                                                                                                                                                            |
+| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Saliency Map**         | <p align="center"><img src="Figures/saliencyoutput.png" alt="Saliency explanation" width="85%"><br><b>Figure 5:</b> Raw pixel influence.</p>                                                                         |
+| **Integrated Gradients** | <p align="center"><img src="Figures/integratedgradientsoutput.png" alt="Integrated Gradients explanation" width="85%"><br><b>Figure 6:</b> Stable, cumulative pixel importance.</p>                                  |
+| **Gradient × Input**     | <p align="center"><img src="Figures/gradientinputoutput.png" alt="Gradient x Input explanation" width="85%"><br><b>Figure 7:</b> Influence combined with pixel intensity.</p>                                       |
+| **SmoothGrad**           | <p align="center"><img src="Figures/smoothgradoutput.png" alt="SmoothGrad explanation" width="85%"><br><b>Figure 8:</b> Noise-reduced explanation.</p>                                                              |
+| **Sobol Attribution**    | <p align="center"><img src="Figures/SobolAttributionMethodoutput.png" alt="Sobol Attribution explanation" width="85%"><br><b>Figure 9:</b> Importance including feature interactions.</p>                           |
+| **SquareGrad**           | <p align="center"><img src="Figures/squaregradoutput.png" alt="SquareGrad explanation" width="85%"><br><b>Figure 10:</b> Magnitude of influence, regardless of direction.</p>                                      |
+| **VarGrad**              | <p align="center"><img src="Figures/vargradoutput.png" alt="VarGrad explanation" width="85%"><br><b>Figure 11:</b> Stability/uncertainty of the model's focus.</p>                                                 |
+
+#### Focus on the middle slice (18)
+
+<p align="center">
+  <img src="Figures/output.png" alt="Model segmentation" width="70%"/>
+  <br>
+  <b>Figure 4:</b> DuneAI segmentation results on a sample patient's middle CT slice.
+</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+  <!-- Column 1 -->
+  <div style="flex: 1; min-width: 300px;">
+    <!-- Figure 1 -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="Figures/gradientinput18.png" alt="Figure 12" style="width: 100%; max-width: 400px;">
+      <p style="font-style: italic; margin-top: 8px;">Fig. 1: Gradient input</p>
+    </div>
+    
+    <!-- Figure 2 -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="Figures/integratedgradient18.png" alt="Figure 2" style="width: 100%; max-width: 400px;">
+      <p style="font-style: italic; margin-top: 8px;">Fig. 2: Integrated gradient</p>
+    </div>
+    
+    <!-- Figure 3 -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="Figures/saliency18.png" alt="Figure 3" style="width: 100%; max-width: 400px;">
+      <p style="font-style: italic; margin-top: 8px;">Fig. 3: Saliency</p>
+    </div>
+  </div>
+  
+  <!-- Column 2 -->
+  <div style="flex: 1; min-width: 300px;">
+    <!-- Figure 4 -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="Figures/smoothgrad18.png" alt="Figure 4" style="width: 100%; max-width: 400px;">
+      <p style="font-style: italic; margin-top: 8px;">Fig. 4: SmoothGrad</p>
+    </div>
+    
+    <!-- Figure 5 -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="Figures/sobol18.png" alt="Figure 5" style="width: 100%; max-width: 400px;">
+      <p style="font-style: italic; margin-top: 8px;">Fig. 5: Sobol attribution</p>
+    </div>
+    
+    <!-- Figure 6 -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="Figures/vargrad18.png" alt="Figure 6" style="width: 100%; max-width: 400px;">
+      <p style="font-style: italic; margin-top: 8px;">Fig. 6: VarGrad</p>
+    </div>
+  </div>
+</div>
+
+## Performance evaluation
+
+#### Interpretation and comparison of XAI methods
+No single XAI method tells the whole story. By comparing their outputs, we build a more robust and reliable understanding of the model's behavior.
+
+-   **Baseline Sensitivity (Saliency, Gradient × Input):**  provide a direct but often noisy look at which pixels the model is sensitive to. They are useful as a starting point but can be misleading due to instability.
+
+-   **Noise Reduction and Stability (SmoothGrad, Integrated Gradients):** cleans up the noise from the basic Saliency map by averaging over slightly perturbed inputs, revealing a clearer underlying pattern. Integrated Gradients offers a more theoretically sound approach to attribution, providing a stable and reliable map of feature importance. Comparing Fig. 5 and Fig. 8 clearly shows the benefit of noise reduction.
+
+-   **Focusing on Magnitude (SquareGrad):** SquareGrad is useful for identifying the most impactful regions without getting distracted by whether their influence is positive or negative. It helps confirm the absolute importance of the tumor area.
+
+-   **Advanced Insights (Sobol, VarGrad):** These methods provide deeper analysis.
+    -   **Sobol Attribution ** goes beyond individual pixels to show how interactions between different image regions contribute to the prediction.
+    -   **VarGrad ** is unique because it measures the model's consistency. High-variance (brighter) areas indicate regions where the model's focus is unstable or uncertain, which could signal ambiguity in the input.
+
+**Comparative Synthesis:** By looking at all methods together, we can draw stronger conclusions. When the tumor region is consistently highlighted across Saliency, Integrated Gradients, and SmoothGrad, we gain confidence that the model is correctly focusing on the relevant pathology. If VarGrad shows low variance in that same area, it further strengthens our trust in the model's stability.
+
+## Limitations and future work
+
+### Known issues
 - **Limited Model Comparison:** Only the DuneAI model was fully implementable due to the unavailability of public weights for other models like UnSegMedGAT.
 - **Data Quality:** A number of files in the public dataset were corrupted or missing `z-spacing` metadata.
 - **2D Slice-Based Analysis:** The model operates on 2D slices, which may not fully capture 3D volumetric context.
 
-### Future Work
+### Future work
 - **Acquire Weights for `Model_2`:** Enable a direct performance comparison with other architectures.
 - **Explore Additional Pre-trained Models:** Survey literature for other publicly available models.
 - **Aggregate 3D Explanations:** Combine 2D slice-level explanations to build a 3D understanding of model behavior.
+DeniesUngodlyOrdinarys
