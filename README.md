@@ -209,52 +209,27 @@ To truly trust a model, we must understand *how* it arrives at its conclusions. 
 
 While the volumetric view confirms consistency, a deep dive into a single, representative slice allows for a more granular comparison of the XAI methods. By examining how different techniques explain the same prediction, we can build a more nuanced and robust understanding of the model's behavior. Figure 5 shows the attribution maps for a central slice of the tumor, each revealing a different facet of the model's reasoning.
 
-<!-- Composite Figure 5 with subfigures -->
-<figure style="text-align: center;">
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-<!-- Column 1 -->
-<div style="flex: 1; min-width: 300px;">
-<!-- Subfigure 5a -->
-<div style="margin-bottom: 30px;">
-<img src="Figures/gradientinput18.png" alt="Gradient input" style="width: 100%; max-width: 400px;">
-<p style="font-style: italic; margin-top: 8px;">(a) Gradient × Input</p>
-</div>
-Generated code
-<!-- Subfigure 5b -->
-  <div style="margin-bottom: 30px;">
-    <img src="Figures/integratedgradient18.png" alt="Integrated gradient" style="width: 100%; max-width: 400px;">
-    <p style="font-style: italic; margin-top: 8px;">(b) Integrated Gradients</p>
-  </div>
-  
-  <!-- Subfigure 5c -->
-  <div style="margin-bottom: 30px;">
-    <img src="Figures/saliency18.png" alt="Saliency" style="width: 100%; max-width: 400px;">
-    <p style="font-style: italic; margin-top: 8px;">(c) Saliency</p>
-  </div>
-</div>
+<p align="center">
+  <!-- Row 1 -->
+  <img src="Figures/gradientinput18.png" width="220">
+  <img src="Figures/integratedgradient18.png" width="220">
+  <img src="Figures/saliency18.png" width="220"><br>
+  <em>
+    (a) Gradient input (b) Integrated gradient (c) Saliency
+  </em><br><br>
 
-<!-- Column 2 -->
-<div style="flex: 1; min-width: 300px;">
-  <!-- Subfigure 5d -->
-  <div style="margin-bottom: 30px;">
-    <img src="Figures/smoothgrad18.png" alt="SmoothGrad" style="width: 100%; max-width: 400px;">
-    <p style="font-style: italic; margin-top: 8px;">(d) SmoothGrad</p>
-  </div>
-  
-  <!-- Subfigure 5e -->
-  <div style="margin-bottom: 30px;">
-    <img src="Figures/sobol18.png" alt="Sobol attribution" style="width: 100%; max-width: 400px;">
-    <p style="font-style: italic; margin-top: 8px;">(e) Sobol Attribution</p>
-  </div>
-  
-  <!-- Subfigure 5f -->
-  <div style="margin-bottom: 30px;">
-    <img src="Figures/vargrad18.png" alt="VarGrad" style="width: 100%; max-width: 400px;">
-    <p style="font-style: italic; margin-top: 8px;">(f) VarGrad</p>
-  </div>
-</div>
-Use code with caution.
-</div>
+  <!-- Row 2 -->
+  <img src="Figures/smoothgrad18.png" width="220">
+  <img src="Figures/sobol18.png" width="220">
+  <img src="Figures/vargrad18.png" width="220"><br>
+  <em>
+    (d) SmoothGrad (e) Sobol attribution (f) VarGrad
+  </em><br><br>
+
+  <!-- Row 3 -->
+  <img src="Figures/squaregrad18.png" width="220"><br>
+  <em>(g) SquareGrad</em>
+</p>
 <figcaption style="margin-top: 1rem;"><b>Figure 5:</b> A comparison of attribution method visualizations for a single tumor slice.</figcaption>
 </figure>
 
