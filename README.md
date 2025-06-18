@@ -97,7 +97,7 @@ This project uses the **Lung-PET-CT-Dx** dataset from The Cancer Imaging Archive
 1.  Navigate to the [TCIA Data Access Page](https://www.cancerimagingarchive.net/collection/lung-pet-ct-dx/) and accept the data usage policy.
 2.  **Download Clinical Data:** Download the "Clinical Data" spreadsheet directly from the page.
 3.  **Download Image Data:**
-    *   Image data must be downloaded using the **NBIA Data Retriever**. [Install it from the TCIA Wiki](https://wiki.cancerimagingarchive.net/display/NBIA/NBIA+Data+Retriever+Installation+and+Usage).
+    *   Image data must be downloaded using the **NBIA Data Retriever**. [Install it from the TCIA Wiki](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images#DownloadingTCIAImages-DownloadingtheNBIADataRetriever).
     *   On the TCIA page, add the image collection to your cart, and download the manifest file (`.tcia`).
     *   Open the NBIA Data Retriever, load the manifest file, and begin the download.
 4.  **Organize Files:** Create a directory named `NIH dataset_raw/` at the project root. Place the downloaded clinical data file and the folder of patient images inside it.
@@ -205,16 +205,68 @@ To truly trust a model, we must understand *how* it arrives at its conclusions. 
 | **VarGrad** | <img src="Figures/vargradoutput.png" alt="VarGrad explanation" width="100%"> | **Stability/uncertainty of model focus.** Measures the variance of gradients. Bright areas indicate regions where the model's focus is unstable or uncertain. |
 | **Sobol Attribution** | <img src="Figures/SobolAttributionMethodoutput.png" alt="Sobol Attribution explanation" width="100%"> | **Importance including feature interactions.** A sophisticated method that captures not just individual pixel importance but also the contribution of interactions between pixels. |
 
+### A Closer Look: Analysis of a Single Slice
+
+While the volumetric view confirms consistency, a deep dive into a single, representative slice allows for a more granular comparison of the XAI methods. By examining how different techniques explain the same prediction, we can build a more nuanced and robust understanding of the model's behavior. Figure 5 shows the attribution maps for a central slice of the tumor, each revealing a different facet of the model's reasoning.
+
+<!-- Composite Figure 5 with subfigures -->
+<figure style="text-align: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+<!-- Column 1 -->
+<div style="flex: 1; min-width: 300px;">
+<!-- Subfigure 5a -->
+<div style="margin-bottom: 30px;">
+<img src="Figures/gradientinput18.png" alt="Gradient input" style="width: 100%; max-width: 400px;">
+<p style="font-style: italic; margin-top: 8px;">(a) Gradient × Input</p>
+</div>
+Generated code
+<!-- Subfigure 5b -->
+  <div style="margin-bottom: 30px;">
+    <img src="Figures/integratedgradient18.png" alt="Integrated gradient" style="width: 100%; max-width: 400px;">
+    <p style="font-style: italic; margin-top: 8px;">(b) Integrated Gradients</p>
+  </div>
+  
+  <!-- Subfigure 5c -->
+  <div style="margin-bottom: 30px;">
+    <img src="Figures/saliency18.png" alt="Saliency" style="width: 100%; max-width: 400px;">
+    <p style="font-style: italic; margin-top: 8px;">(c) Saliency</p>
+  </div>
+</div>
+
+<!-- Column 2 -->
+<div style="flex: 1; min-width: 300px;">
+  <!-- Subfigure 5d -->
+  <div style="margin-bottom: 30px;">
+    <img src="Figures/smoothgrad18.png" alt="SmoothGrad" style="width: 100%; max-width: 400px;">
+    <p style="font-style: italic; margin-top: 8px;">(d) SmoothGrad</p>
+  </div>
+  
+  <!-- Subfigure 5e -->
+  <div style="margin-bottom: 30px;">
+    <img src="Figures/sobol18.png" alt="Sobol attribution" style="width: 100%; max-width: 400px;">
+    <p style="font-style: italic; margin-top: 8px;">(e) Sobol Attribution</p>
+  </div>
+  
+  <!-- Subfigure 5f -->
+  <div style="margin-bottom: 30px;">
+    <img src="Figures/vargrad18.png" alt="VarGrad" style="width: 100%; max-width: 400px;">
+    <p style="font-style: italic; margin-top: 8px;">(f) VarGrad</p>
+  </div>
+</div>
+Use code with caution.
+</div>
+<figcaption style="margin-top: 1rem;"><b>Figure 5:</b> A comparison of attribution method visualizations for a single tumor slice.</figcaption>
+</figure>
+
 ### Interpreting and Comparing XAI Methods
-By analyzing these explanation sequences, we can build a more robust understanding of the model's behavior than is possible from a single slice.
 
-- **Confirming Consistent Focus:** The primary benefit of this volumetric view is the ability to check for consistency. Across all methods, we can observe that the model's attention (the colored highlights) is sharply concentrated on the tumor region and tracks it accurately from slice to slice. This provides strong evidence that the model has learned the correct anatomical features.
+To build a compelling case for the model's trustworthiness, we integrate two complementary views: a holistic analysis of its focus across the entire tumor volume (Figure 4) and a granular examination of its logic on a representative slice (Figure 5).
 
-- **Assessing Stability Across Slices:** Methods like **Integrated Gradients** and **SmoothGrad** show a stable and clean focus that evolves smoothly with the tumor's shape across slices. This is a hallmark of a robust model.
+The volumetric view confirms the model’s macro-level reliability. It demonstrates a stable and consistent focus that accurately tracks the tumor's anatomy from slice to slice, proving its reasoning is a continuous, logical process, not an isolated success.
 
-- **Identifying Uncertainty:** **VarGrad** is particularly powerful in this context. A low variance (darker color) that is consistent across the tumor slices indicates the model is highly confident in its focus. If certain slices showed high variance (brighter colors), it could point to ambiguous features in those slices that the model finds difficult to interpret.
+The single-slice deep-dive then validates the model’s micro-level sophistication. Here, we see noisy Saliency maps (5c) refined into a sharp, confident focus by Integrated Gradients (5b). We can diagnose the model’s certainty through VarGrad’s low-variance signal (5f) and appreciate the complexity of its reasoning, which includes feature interactions captured by Sobol Attribution (5e).
 
-**Synthesis:** Viewing the explanations as a full sequence transforms the analysis. Instead of just confirming *what* the model is looking at on a single slice, we can assess the *stability and consistency* of its focus across the entire tumor volume. The strong and consistent focus on the tumor pathology, as seen across multiple XAI methods, significantly increases our trust in the model's underlying reasoning and its potential for clinical application.
+Ultimately, this dual-pronged approach transforms a "black box" prediction into a transparent finding. The macro-view confirms what the model is looking at is consistently correct, while the micro-view validates how it is thinking is both precise and stable. 
 
 ## Limitations and Future Work
 
