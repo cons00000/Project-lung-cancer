@@ -1,48 +1,74 @@
 # Explainable AI for Lung Cancer Stage Classification
 
-This project applies and analyzes a pre-trained deep learning model for lung cancer stage classification, with an emphasis on transparency through Explainable AI (XAI) techniques. By implementing post-hoc explanation methods, we gain crucial insights into the model's decision-making process, evaluating its clinical relevance and reliability.
+This project provides a comprehensive pipeline for applying, evaluating, and interpreting a pre-trained deep learning model for lung cancer stage classification. By leveraging post-hoc Explainable AI (XAI) techniques, we demystify the model's decision-making process, ensuring its predictions are not only accurate but also transparent, reliable, and clinically relevant.
 
-## Table of contents
-- [Introduction](#introduction)
+## Table of Contents
+- [Project Overview](#project-overview)
 - [Key Features](#key-features)
 - [Project Pipeline](#project-pipeline)
-- [Getting Started](#getting-started)
 - [Repository Structure](#repository-structure)
-- [Usage](#usage)
-- [Data Exploration](#data-exploration)
-- [Model Analysis and Explainability](#model-analysis-and-explainability)
-- [Performance Evaluation](#performance-evaluation)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation and Data Setup](#installation-and-data-setup)
+- [Usage Guide](#usage-guide)
+- [Data Exploration: The TNM Staging System](#data-exploration-the-tnm-staging-system)
+- [Model Methodology](#model-methodology)
+  - [DuneAI for Segmentation](#duneai-for-segmentation)
+  - [T-Stage Classification Logic](#t-stage-classification-logic)
+- [Results and Performance](#results-and-performance)
+  - [Segmentation Results](#segmentation-results)
+  - [Classification Performance](#classification-performance)
+- [Explainable AI (XAI) Analysis](#explainable-ai-xai-analysis)
+  - [Visualizing the Model’s Focus in 3D](#visualizing-the-model’s-focus-in-3d)
+  - [Interpreting and Comparing XAI Methods](#interpreting-and-comparing-xai-methods)
 - [Limitations and Future Work](#limitations-and-future-work)
+- [References](#references)
 
-## Introduction
+## Project Overview
 
-While AI models can achieve high accuracy in medical imaging tasks, their "black box" nature can limit clinical adoption. This project addresses this by creating a pipeline to apply, evaluate, and interpret a pre-trained model for lung cancer classification, making its predictions transparent.
+Artificial intelligence has shown remarkable success in medical imaging, but the "black box" nature of many deep learning models remains a significant barrier to their adoption in clinical practice. This project tackles that challenge head-on. We create and document an end-to-end framework to analyze a pre-trained model for classifying lung cancer stages from CT and PET/CT scans.
 
-Our objectives are to:
-- Apply a pre-trained model to classify lung cancer stages from CT and PET/CT scans.
-- Utilize a suite of post-hoc XAI methods to understand the model's predictive logic.
-- Establish a reproducible framework for analyzing pre-trained medical imaging models.
-- Document best practices for applying XAI to evaluate model behavior in a clinical context.
+Our core objectives are:
+- **Apply** a state-of-the-art model to segment and classify lung cancer.
+- **Explain** the model's predictions using a diverse suite of XAI methods to understand its internal logic.
+- **Evaluate** the model's behavior and performance against established clinical standards (TNM staging).
+- **Establish** a reproducible pipeline for the analysis and interpretation of medical imaging AI.
 
-## Key features
-- **End-to-End Inference Pipeline:** From data preprocessing and segmentation to prediction and explanation using a pre-trained model.
-- **State-of-the-Art Model Application:** Implements the **DuneAI** model for segmentation. An implementation for a second model (**UnSegMedGAT**) is included, though its pre-trained weights were not available.
-- **Deep Explainability:** Leverages a wide array of XAI techniques to provide a holistic view of the model's decision-making.
-- **Clinical Focus:** Grounds the analysis in established medical standards like TNM staging to assess practical utility.
+## Key Features
+- **End-to-End Inference Pipeline:** A complete workflow from data ingestion and preprocessing to segmentation, prediction, and explanation.
+- **State-of-the-Art Model Integration:** Utilizes the **DuneAI** model for tumor segmentation. An implementation for a second model (**UnSegMedGAT**) is included for future extension.
+- **Deep Explainability:** Leverages a wide array of XAI techniques from the `Xplique` library for a holistic view of the model's decision-making process.
+- **Clinically Grounded Analysis:** The entire analysis is framed around the **TNM staging system** to assess the model's practical utility and alignment with medical standards.
 
-## Project pipeline
+## Project Pipeline
 
-Our methodology is an inference and analysis pipeline focused on a pre-trained model:
+Our methodology is an inference and analysis pipeline designed to scrutinize a pre-trained model's behavior.
 
 **`Data Acquisition`** → **`Preprocessing & Segmentation`** → **`Prediction (Inference)`** → **`Explainability Analysis`**
 
-## Getting started
+## Repository Structure
+```
+project-lung-cancer/
+├── NIH dataset_raw/              # Raw TCIA dataset (images and clinical data)
+├── Data-analysis/                # Jupyter notebooks for initial data exploration
+├── Figures/                      # All plots and visualizations generated for the README
+├── Model_1/                      # Primary model (DuneAI)
+│   ├── Data_preparation/         # Scripts for converting DICOM to NRRD
+│   ├── Segmentation/             # Scripts for running tumor segmentation
+│   ├── T_Stage_Classification/   # Scripts for classifying T-stage from segmentations
+│   └── Xai/                      # Scripts for generating XAI attribution maps
+├── Model_2/                      # Secondary model (UnSegMedGAT, weights unavailable)
+├── Visualize_lung_mask/          # Utility scripts for visualization
+└── README.md
+```
+
+## Getting Started
 
 ### Prerequisites
 - Python 3.8+
-- Conda ([Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://www.anaconda.com/products/distribution))
+- Conda (`Miniconda` or `Anaconda`)
 
-### Installation and data setup
+### Installation and Data Setup
 
 **Step 1: Clone the Repository**
 ```bash
@@ -51,114 +77,75 @@ cd project-lung-cancer
 ```
 
 **Step 2: Set Up Conda Environments**
+Two separate environments are required due to dependency constraints.
+
 ```bash
-# Environment for Data Preparation
+# 1. Environment for Data Preparation
 conda create --name lung-dataprep python=3.8 -y
 conda activate lung-dataprep
 pip install -r Model_1/Data_preparation/requirements.txt
 
-# Environment for Segmentation & XAI
+# 2. Environment for Segmentation & XAI
 conda create --name lung-segment python=3.10 -y
 conda activate lung-segment
 pip install -r Model_1/Segmentation/requirements.txt
 ```
 
 **Step 3: Download the Dataset**
-This project uses the **Lung-PET-CT-Dx** dataset from TCIA.
+This project uses the **Lung-PET-CT-Dx** dataset from The Cancer Imaging Archive (TCIA).
 
-> Li, P., Wang, S., Li, T., Lu, J., HuangFu, Y., & Wang, D. (2020). *A Large-Scale CT and PET/CT Dataset for Lung Cancer Diagnosis (Lung-PET-CT-Dx) [Data set]*. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.NNC2-0461
-
-1.  **Go to the [TCIA Data Access Page](https://www.cancerimagingarchive.net/collection/lung-pet-ct-dx/)** and accept the data usage agreement.
-2.  **Download Clinical Data:** Download the "Clinical Data" file directly.
+1.  Navigate to the [TCIA Data Access Page](https://www.cancerimagingarchive.net/collection/lung-pet-ct-dx/) and accept the data usage policy.
+2.  **Download Clinical Data:** Download the "Clinical Data" spreadsheet directly from the page.
 3.  **Download Image Data:**
-    *   The image data must be acquired using the **NBIA Data Retriever**. [Download and install it from the TCIA Wiki](https://wiki.cancerimagingarchive.net/display/NBIA/NBIA+Data+Retriever+Installation+and+Usage) if you haven't already.
-    *   On the TCIA website, add the image collection to your cart and download the **manifest file** (`.tcia`).
-    *   Open the NBIA Data Retriever, import the manifest file, and start the download.
-4.  **Organize Files:** Create a `NIH dataset_raw/` directory at the project root and place the downloaded clinical data file and the folder of patient images inside it.
+    *   Image data must be downloaded using the **NBIA Data Retriever**. [Install it from the TCIA Wiki](https://wiki.cancerimagingarchive.net/display/NBIA/NBIA+Data+Retriever+Installation+and+Usage).
+    *   On the TCIA page, add the image collection to your cart, and download the manifest file (`.tcia`).
+    *   Open the NBIA Data Retriever, load the manifest file, and begin the download.
+4.  **Organize Files:** Create a directory named `NIH dataset_raw/` at the project root. Place the downloaded clinical data file and the folder of patient images inside it.
 
-## Repository structure
-```
-project-lung-cancer/
-├── NIH dataset_raw/              # Raw data goes here
-├── Data-analysis/                # Initial data exploration
-├── Model_1/                      # Primary model (DuneAI)
-│   ├── Data_preparation/
-│   ├── Segmentation/
-│   ├── T_Stage_Classification/
-│   └── Xai/
-├── Model_2/                      # Second model (weights unavailable)
-└── Visualize_lung_mask/
-├── README.md
-```
+## Usage Guide
+Follow the notebooks in sequence, ensuring you activate the correct Conda environment for each stage.
 
-## Usage
-Activate the correct Conda environment before running the Jupyter notebooks in each directory.
-- **For data preparation:** `conda activate lung-dataprep`
-- **For segmentation and XAI:** `conda activate lung-segment`
+1.  **Data Preparation (`conda activate lung-dataprep`)**
+    - Run the notebooks in `Model_1/Data_preparation/` to process the raw DICOM files into the NRRD format required by the model.
+2.  **Segmentation and Analysis (`conda activate lung-segment`)**
+    - Run the notebook in `Model_1/Segmentation/` to perform tumor segmentation on the NRRD files using the DuneAI model.
+    - Proceed to `Model_1/T_Stage_Classification/` to classify the T-stage based on the segmentation output.
+    - Finally, run the notebooks in `Model_1/Xai/` to generate and visualize the explainability maps.
 
-## Data exploration: TNM staging
+## Data Exploration: The TNM Staging System
 
-Our analysis is grounded in the clinical **TNM Staging System**.
+Our analysis is grounded in the clinical **TNM Staging System**, the global standard for classifying the anatomical extent of cancer.
 
-| Aspect                 | TNM Staging                               | Histopathological Grading                  |
-| ---------------------- | ----------------------------------------- | ------------------------------------------ |
-| **Focus**              | Anatomical spread of the tumor            | Cellular appearance & aggressiveness       |
-| **Components**         | **T** (Tumor size), **N** (Nodes), **M** (Metastasis) | Differentiation (Grade G1-G3)              |
+| Aspect         | TNM Staging                                 | Histopathological Grading          |
+| :------------- | :------------------------------------------ | :--------------------------------- |
+| **Focus**      | Anatomical spread of the tumor              | Cellular appearance & aggressiveness |
+| **Components** | **T** (Tumor size), **N** (Nodes), **M** (Metastasis) | Differentiation (Grade G1-G3)      |
 
-### Dataset distributions
-<p align="center">
-  <img src="Figures/chart2.svg" alt="T-Stage distribution" width="30%"/>
-  <img src="Figures/chart1.svg" alt="N-Stage distribution" width="30%"/>
-  <img src="Figures/chart3.svg" alt="M-Stage distribution" width="30%"/>
-</p>
-<p align="center">
-  <b>Figure 1:</b> T-Stage Distribution &nbsp;&nbsp;&nbsp;&nbsp; <b>Figure 2:</b> N-Stage Distribution &nbsp;&nbsp;&nbsp;&nbsp; <b>Figure 3:</b> M-Stage Distribution
-</p>
-
-## Model Overview
-
-**DuneAI** is a deep learning model for automated detection and segmentation of non-small cell lung cancer (NSCLC) in computed tomography images.
-
-### Input Requirements
-- **Input format**: NRRD files
-- **Preprocessing**: DICOM to NRRD conversion using the precision-medicine-toolbox
-
-### Dependencies
-
-This model utilizes the [precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox), an open-source Python package for medical imaging data preparation and radiomics analysis.
-
-**Citation for toolbox:**
-```
-Primakov, Sergey, Elizaveta Lavrova, Zohaib Salahuddin, Henry C. Woodruff, and Philippe Lambin. 
-"Precision-medicine-toolbox: An open-source python package for facilitation of quantitative medical 
-imaging and radiomics analysis." arXiv preprint arXiv:2202.13965 (2022).
-```
-
-### Model Implementation
-
-The DuneAI model is based on the methodology described in:
-
-```
-Primakov, S.P., Ibrahim, A., van Timmeren, J.E. et al. 
-Automated detection and segmentation of non-small cell lung cancer computed tomography images. 
-Nat Commun 13, 3423 (2022). https://doi.org/10.1038/s41467-022-30841-3
-```
-
-## Model analysis and explainability
-### Segmentation results on the middle slice
+The **Lung-PET-CT-Dx** dataset provides labels for T, N, and M stages. The distribution of these labels is shown below.
 
 <p align="center">
-  <img src="Figures/output.png" alt="Model segmentation" width="70%"/>
-  <br>
-  <b>Figure 4:</b> DuneAI segmentation results on a sample patient's middle CT slice.
+  <img src="Figures/chart2.svg" alt="T-Stage distribution" width="32%"/>
+  <img src="Figures/chart1.svg" alt="N-Stage distribution" width="32%"/>
+  <img src="Figures/chart3.svg" alt="M-Stage distribution" width="32%"/>
+</p>
+<p align="center">
+  <b>Figure 1:</b> Distribution of ground truth labels for T-Stage, N-Stage, and M-Stage in the dataset.
 </p>
 
-### Classification results
+## Model Methodology
 
-#### Mapping from the tumor's predicted size to the T-stage
+### DuneAI for Segmentation
+**DuneAI** is a deep learning model designed for the automated detection and segmentation of non-small cell lung cancer (NSCLC) in CT images. It relies on the **[precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox)** for data preprocessing.
 
+- **Input Format:** NRRD files.
+- **Preprocessing:** DICOM images are converted to NRRD using the provided scripts.
+
+### T-Stage Classification Logic
+The model first segments the tumor and calculates its size. This size is then mapped to a clinical T-stage according to established guidelines.
+
+**Table 1: Mapping Tumor Size to T-Stage**
 | T-Stage | Tumor Size                   |
-| ------- | ---------------------------- |
+| :------ | :--------------------------- |
 | T1a     | ≤ 1 cm (≤ 10 mm)             |
 | T1b     | > 1 cm and ≤ 2 cm (11–20 mm) |
 | T1c     | > 2 cm and ≤ 3 cm (21–30 mm) |
@@ -167,89 +154,91 @@ Nat Commun 13, 3423 (2022). https://doi.org/10.1038/s41467-022-30841-3
 | T3      | > 5 cm and ≤ 7 cm (51–70 mm) |
 | T4      | > 7 cm (> 70 mm)             |
 
-To reconcile differences in label granularity between the source data and the model's predictions, a mapping convention was established. The ground truth dataset contained a general 'T2' label for some cases. For performance evaluation, these instances were consistently compared against the model's 'T2a' output.
+*Note: The ground truth dataset contains a mix of general labels (e.g., 'T2') and specific sub-stages (e.g., 'T2a'). This label granularity mismatch is a key challenge addressed in the performance analysis.*
 
-#### Performance evaluation
+## Results and Performance
 
-The model's classification performance was evaluated using standard metrics.
+### Segmentation Results
+The DuneAI model processes each patient scan slice-by-slice to generate a 3D segmentation mask identifying the tumor.
 
 <p align="center">
-  <img src="Figures/confusionmatrixoutput.png" alt="Confusion Matrix" width="45%"/>
-  <img src="Figures/distributionerrorsoutput.png" alt="Error Distribution" width="45%"/>
+  <img src="Figures/output.png" alt="Model segmentation" width="70%"/>
   <br>
-  <b>Figure 12:</b> Confusion Matrix (left) and Distribution of Prediction Errors (right).
+  <b>Figure 2:</b> Example of DuneAI segmentation results on a patient's middle CT slice, showing the original image, ground truth mask, and predicted mask.
 </p>
 
-### Explainable AI (XAI) analysis
-
-To understand *how* the model produced this segmentation, we generated attribution maps using various XAI methods from the [Xplique](https://github.com/deel-ai/xplique) library. Since segmentation is performed slice-by-slice, these explanations show which pixels were most influential for a given slice's prediction.
-
-#### The whole Explanation Array
-
-| Method                   | Visualization                                                                                                                                                                                            |
-| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Saliency Map**         | <p align="center"><img src="Figures/saliencyoutput.png" alt="Saliency explanation" width="85%"><br><b>Figure 5:</b> Raw pixel influence.</p>                                                                         |
-| **Integrated Gradients** | <p align="center"><img src="Figures/integratedgradientsoutput.png" alt="Integrated Gradients explanation" width="85%"><br><b>Figure 6:</b> Stable, cumulative pixel importance.</p>                                  |
-| **Gradient × Input**     | <p align="center"><img src="Figures/gradientinputoutput.png" alt="Gradient x Input explanation" width="85%"><br><b>Figure 7:</b> Influence combined with pixel intensity.</p>                                       |
-| **SmoothGrad**           | <p align="center"><img src="Figures/smoothgradoutput.png" alt="SmoothGrad explanation" width="85%"><br><b>Figure 8:</b> Noise-reduced explanation.</p>                                                              |
-| **Sobol Attribution**    | <p align="center"><img src="Figures/SobolAttributionMethodoutput.png" alt="Sobol Attribution explanation" width="85%"><br><b>Figure 9:</b> Importance including feature interactions.</p>                           |
-| **SquareGrad**           | <p align="center"><img src="Figures/squaregradoutput.png" alt="SquareGrad explanation" width="85%"><br><b>Figure 10:</b> Magnitude of influence, regardless of direction.</p>                                      |
-| **VarGrad**              | <p align="center"><img src="Figures/vargradoutput.png" alt="VarGrad explanation" width="85%"><br><b>Figure 11:</b> Stability/uncertainty of the model's focus.</p>                                                 |
-
-#### Focus on the middle slice (18)
+### Classification Performance
+The model's T-stage classification performance was evaluated using a confusion matrix. The matrix highlights the model's strengths and weaknesses in distinguishing between different cancer stages.
 
 <p align="center">
-  <!-- Row 1 -->
-  <img src="Figures/gradientinput18.png" width="220">
-  <img src="Figures/integratedgradient18.png" width="220">
-  <img src="Figures/saliency18.png" width="220"><br>
-  <em>
-    (a) Gradient input (b) Integrated gradient (c) Saliency
-  </em><br><br>
-
-  <!-- Row 2 -->
-  <img src="Figures/smoothgrad18.png" width="220">
-  <img src="Figures/sobol18.png" width="220">
-  <img src="Figures/vargrad18.png" width="220"><br>
-  <em>
-    (d) SmoothGrad (e) Sobol attribution (f) VarGrad
-  </em><br><br>
-
-  <!-- Row 3 -->
-  <img src="Figures/squaregrad18.png" width="220"><br>
-  <em>(g) SquareGrad</em>
+  <img src="Figures/confusionmatrixoutput.png" alt="Confusion Matrix" width="60%"/>
+</p>
+<p align="center">
+  <b>Figure 3:</b> Confusion Matrix showing model-predicted T-stages versus the actual T-stages from the dataset.
 </p>
 
+**Analysis of Classification Performance:**
 
-**Figure 12:** Attribution method visualizations.
+- **Strongest Performance:** The model shows its highest confidence and accuracy in identifying the **T1c** stage, correctly classifying 24 cases.
+- **Adjacent Stage Confusion:** A common pattern is the confusion between adjacent or near-adjacent stages, which is clinically understandable as it depends on precise size measurements. For example, actual **T1c** cases are frequently misclassified as **T1b** (13 cases) or **T2a** (20 cases). This indicates the model is identifying tumors of a similar size but the calculated diameter falls just across a classification boundary.
+- **Handling of General vs. Specific Labels:** The ground truth contains general labels like '2' and '3', while the model predicts specific sub-stages. The model tends to overestimate the stage for these general labels; for example, actual **T2** cases are most often predicted as **T2b** (10), **T3** (16), or even **T4** (6). This highlights a challenge in reconciling different levels of label granularity.
+- **Challenges with Smallest Tumors:** The model struggles significantly with the smallest tumors, failing to correctly identify any **T1a** cases, often classifying them as larger stages like **T1b** or **T1c**.
 
+## Explainable AI (XAI) Analysis
 
-## Performance evaluation
+### Visualizing the Model’s Focus in 3D
 
-#### Interpretation and comparison of XAI methods
-No single XAI method tells the whole story. By comparing their outputs, we build a more robust and reliable understanding of the model's behavior.
+To truly trust a model, we must understand *how* it arrives at its conclusions. Since the model analyzes the CT scan slice by slice, we can apply XAI methods to each slice to create a sequence of attribution maps. This approach provides a pseudo-3D, volumetric understanding of the model's decision-making process, allowing us to see how its focus evolves across the depth of the tumor.
 
--   **Baseline Sensitivity (Saliency, Gradient × Input):**  provide a direct but often noisy look at which pixels the model is sensitive to. They are useful as a starting point but can be misleading due to instability.
+**Figure 4** presents these sequences for various XAI methods. The colored background highlights the slices containing the segmented tumor, where the model's attention is expected to be highest.
 
--   **Noise Reduction and Stability (SmoothGrad, Integrated Gradients):** cleans up the noise from the basic Saliency map by averaging over slightly perturbed inputs, revealing a clearer underlying pattern. Integrated Gradients offers a more theoretically sound approach to attribution, providing a stable and reliable map of feature importance. Comparing Fig. 5 and Fig. 8 clearly shows the benefit of noise reduction.
+**Figure 4: Volumetric XAI Attribution Maps**
+*The table below visualizes the model's focus across all relevant slices of a patient's scan for different XAI methods.*
 
--   **Focusing on Magnitude (SquareGrad):** SquareGrad is useful for identifying the most impactful regions without getting distracted by whether their influence is positive or negative. It helps confirm the absolute importance of the tumor area.
+| Method | Visualization | Description |
+| :--- | :--- | :--- |
+| **Saliency Map** | <img src="Figures/saliencyoutput.png" alt="Saliency explanation" width="100%"> | **Raw pixel influence.** Shows the gradient of the output with respect to the input pixels. It's fast but can be noisy. |
+| **Gradient × Input** | <img src="Figures/gradientinputoutput.png" alt="Gradient x Input explanation" width="100%"> | **Influence combined with pixel intensity.** Weights the gradients by the input pixel values, highlighting influential bright/dark areas. |
+| **Integrated Gradients** | <img src="Figures/integratedgradientsoutput.png" alt="Integrated Gradients explanation" width="100%"> | **Stable, cumulative pixel importance.** Aggregates gradients along a path from a baseline (black) image to the input, providing more robust and less noisy attributions. |
+| **SmoothGrad** | <img src="Figures/smoothgradoutput.png" alt="SmoothGrad explanation" width="100%"> | **Noise-reduced explanation.** Averages saliency maps over multiple noisy copies of the input to produce a cleaner, more stable visualization. |
+| **SquareGrad** | <img src="Figures/squaregradoutput.png" alt="SquareGrad explanation" width="100%"> | **Magnitude of influence.** Similar to SmoothGrad, but focuses on the magnitude of gradients, highlighting impactful regions regardless of positive/negative influence. |
+| **VarGrad** | <img src="Figures/vargradoutput.png" alt="VarGrad explanation" width="100%"> | **Stability/uncertainty of model focus.** Measures the variance of gradients. Bright areas indicate regions where the model's focus is unstable or uncertain. |
+| **Sobol Attribution** | <img src="Figures/SobolAttributionMethodoutput.png" alt="Sobol Attribution explanation" width="100%"> | **Importance including feature interactions.** A sophisticated method that captures not just individual pixel importance but also the contribution of interactions between pixels. |
 
--   **Advanced Insights (Sobol, VarGrad):** These methods provide deeper analysis.
-    -   **Sobol Attribution ** goes beyond individual pixels to show how interactions between different image regions contribute to the prediction.
-    -   **VarGrad ** is unique because it measures the model's consistency. High-variance (brighter) areas indicate regions where the model's focus is unstable or uncertain, which could signal ambiguity in the input.
+### Interpreting and Comparing XAI Methods
+By analyzing these explanation sequences, we can build a more robust understanding of the model's behavior than is possible from a single slice.
 
-**Comparative Synthesis:** By looking at all methods together, we can draw stronger conclusions. When the tumor region is consistently highlighted across Saliency, Integrated Gradients, and SmoothGrad, we gain confidence that the model is correctly focusing on the relevant pathology. If VarGrad shows low variance in that same area, it further strengthens our trust in the model's stability.
+- **Confirming Consistent Focus:** The primary benefit of this volumetric view is the ability to check for consistency. Across all methods, we can observe that the model's attention (the colored highlights) is sharply concentrated on the tumor region and tracks it accurately from slice to slice. This provides strong evidence that the model has learned the correct anatomical features.
 
-## Limitations and future work
+- **Assessing Stability Across Slices:** Methods like **Integrated Gradients** and **SmoothGrad** show a stable and clean focus that evolves smoothly with the tumor's shape across slices. This is a hallmark of a robust model.
 
-### Known issues
-- **Limited Model Comparison:** Only the DuneAI model was fully implementable due to the unavailability of public weights for other models like UnSegMedGAT.
-- **Data Quality:** A number of files in the public dataset were corrupted or missing `z-spacing` metadata.
-- **2D Slice-Based Analysis:** The model operates on 2D slices, which may not fully capture 3D volumetric context.
+- **Identifying Uncertainty:** **VarGrad** is particularly powerful in this context. A low variance (darker color) that is consistent across the tumor slices indicates the model is highly confident in its focus. If certain slices showed high variance (brighter colors), it could point to ambiguous features in those slices that the model finds difficult to interpret.
 
-### Future work
-- **Acquire Weights for `Model_2`:** Enable a direct performance comparison with other architectures.
-- **Explore Additional Pre-trained Models:** Survey literature for other publicly available models.
-- **Aggregate 3D Explanations:** Combine 2D slice-level explanations to build a 3D understanding of model behavior.
-DeniesUngodlyOrdinarys
+**Synthesis:** Viewing the explanations as a full sequence transforms the analysis. Instead of just confirming *what* the model is looking at on a single slice, we can assess the *stability and consistency* of its focus across the entire tumor volume. The strong and consistent focus on the tumor pathology, as seen across multiple XAI methods, significantly increases our trust in the model's underlying reasoning and its potential for clinical application.
+
+## Limitations and Future Work
+
+### Known Issues
+- **Limited Model Comparison:** The analysis was restricted to **DuneAI**, as pre-trained weights for the alternative model (**UnSegMedGAT**) were not publicly available.
+- **Dataset Imperfections:** A subset of image files in the public dataset were found to be corrupted or missing essential `z-spacing` metadata, requiring data cleaning and exclusion.
+- **2D Slice-Based Analysis:** While our XAI analysis provides a pseudo-3D view, the model itself still operates on 2D slices, which may not fully capture complex 3D volumetric context.
+
+### Future Work
+- **Comparative Model Analysis:** Acquire weights for `Model_2` (UnSegMedGAT) to enable a direct performance and explainability comparison between different architectures.
+- **True 3D Explainability:** Implement XAI methods designed specifically for 3D convolutional networks to generate a true 3D attribution map, moving beyond the slice-by-slice approximation.
+- **Expand Model Repository:** Survey recent literature to identify and integrate other publicly available pre-trained models for a broader comparative study.
+
+## References
+
+#### Dataset
+> Li, P., Wang, S., Li, T., Lu, J., HuangFu, Y., & Wang, D. (2020). *A Large-Scale CT and PET/CT Dataset for Lung Cancer Diagnosis (Lung-PET-CT-Dx) [Data set]*. The Cancer Imaging Archive. [https://doi.org/10.7937/TCIA.2020.NNC2-0461](https://doi.org/10.7937/TCIA.2020.NNC2-0461)
+
+#### Models and Toolboxes
+> Primakov, S. P., Ibrahim, A., van Timmeren, J. E., et al. (2022). Automated detection and segmentation of non-small cell lung cancer computed tomography images. *Nature Communications, 13*(1), 3423. [https://doi.org/10.1038/s41467-022-30841-3](https://doi.org/10.1038/s41467-022-30841-3)
+
+> Primakov, S., Lavrova, E., Salahuddin, Z., Woodruff, H. C., & Lambin, P. (2022). *Precision-medicine-toolbox: An open-source python package for facilitation of quantitative medical imaging and radiomics analysis*. arXiv preprint arXiv:2202.13965. [https://arxiv.org/abs/2202.13965](https://arxiv.org/abs/2202.13965)
+
+> Fel, T., Hervier, L., Vigouroux, D., et al. (2022). *Xplique: A Deep Learning Explainability Toolbox*. Workshop on Explainable Artificial Intelligence for Computer Vision (CVPR). [https://arxiv.org/abs/2204.13132](https://arxiv.org/abs/2204.13132)
+
+#### Related Literature
+> Ma, J., He, Y., Li, F., et al. (2024). Segment anything in medical images. *Nature Communications, 15*(1), 654. [https://doi.org/10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z)
