@@ -12,15 +12,12 @@ This project provides a comprehensive pipeline for applying, evaluating, and int
   - [Installation and Data Setup](#installation-and-data-setup)
 - [Usage Guide](#usage-guide)
 - [Data Exploration: The TNM Staging System](#data-exploration-the-tnm-staging-system)
-- [Model Methodology](#model-methodology)
+- [Model implementation and analysis](#model-implementation-and-analysis)
   - [DuneAI for Segmentation](#duneai-for-segmentation)
   - [T-Stage Classification Logic](#t-stage-classification-logic)
-- [Results and Performance](#results-and-performance)
-  - [Segmentation Results](#segmentation-results)
-  - [Classification Performance](#classification-performance)
-- [Explainable AI (XAI) Analysis](#explainable-ai-xai-analysis)
+  - [Explainable AI (XAI) Analysis](#explainable-ai-xai-analysis)
   - [Visualizing the Model’s Focus in 3D](#visualizing-the-model’s-focus-in-3d)
-  - [Interpreting and Comparing XAI Methods](#interpreting-and-comparing-xai-methods)
+  - [Classification Performance](#classification-performance)
 - [Limitations and Future Work](#limitations-and-future-work)
 - [References](#references)
 
@@ -67,6 +64,7 @@ project-lung-cancer/
 ### Prerequisites
 - Python 3.8+
 - Conda (`Miniconda` or `Anaconda`)
+- A GPU (necessary for the segmentation but not the data analysis)
 
 ### Installation and Data Setup
 
@@ -159,7 +157,7 @@ Here are the labels generally used in radiology to caracteristize each of these 
 | **T4** >7 cm         |                         |                         |
 
 
-## Model Methodology
+## Model implementation and analysis
 
 ### DuneAI for Segmentation
 **DuneAI** is a deep learning model designed for the automated detection and segmentation of non-small cell lung cancer (NSCLC) in CT images. We use the **[precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox)** for data preprocessing.
@@ -183,9 +181,7 @@ The model first segments the tumor and outputs a mask. We then calculate the siz
 
 *Note: The ground truth dataset contains a mix of general labels (e.g., 'T2') and specific sub-stages (e.g., 'T2a'). This label granularity mismatch is a key challenge addressed in the performance analysis.*
 
-## Explainable AI (XAI) Analysis
-
-### Visualizing the Model’s Focus in 3D
+### Explainable AI (XAI) Analysis
 
 Just below is the data for one patient and the segmentation's result after using DuneAI.
 
