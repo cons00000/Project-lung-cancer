@@ -12,7 +12,7 @@ conda init
 conda activate lung_env
 
 # Chemin vers ton notebook sur le cluster
-NOTEBOOK_PATH=/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/src/Xai/Grad_Cam.ipynb
+NOTEBOOK_PATH=/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Xai/Local_XAI.ipynb
 
 # Lancer l’exécution du notebook avec papermill
 papermill $NOTEBOOK_PATH ${NOTEBOOK_PATH%.ipynb}_output.ipynb

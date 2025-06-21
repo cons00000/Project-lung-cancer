@@ -1,20 +1,15 @@
 #!/bin/bash
-#SBATCH --job-name=seg_job
-#SBATCH --output=seg_%j.out
-#SBATCH --error=seg_%j.err
+#SBATCH --job-name=seg_M1_job
+#SBATCH --output=seg_M1_%j.out
+#SBATCH --error=seg_M1_%j.err
 #SBATCH --time=12:00:00
 #SBATCH --partition=gpu_prod_long
 #SBATCH --mem=16G
 #SBATCH --cpus-per-task=4
 
-source ~/.bashrc
-conda activate lung_env
-
-NOTEBOOK_PATH=/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/src/Segmentation/Segmentation.ipynb
-OUTPUT_NOTEBOOK=${NOTEBOOK_PATH%.ipynb}_output.ipynb
+PYTHON_SCRIPT="/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Segmentation/segmentation.py"
 
 # Exécution avec logs
 echo "### Début de l'exécution : $(date)"
-papermill "$NOTEBOOK_PATH" "$OUTPUT_NOTEBOOK" --log-output
+python "$PYTHON_SCRIPT"
 echo "### Fin de l'exécution : $(date)"
-

@@ -32,7 +32,8 @@ conda install -y -c conda-forge \
   simpleitk=2.2.1 \
   ipykernel=6.25.0 \
   numpy=1.23.5 \
-  ipython=8.13
+  ipython=8.13 \
+  shap
 
 # Installer les packages pip avec versions compatibles
 pip install \

@@ -57,7 +57,7 @@ project-lung-cancer/
 │   ├── Segmentation/             # Scripts for running tumor segmentation
 │   ├── T_Stage_Classification/   # Scripts for classifying T-stage from segmentations
 │   └── Xai/                      # Scripts for generating XAI attribution maps
-├── Model_2/                      # Secondary model (UnSegMedGAT, weights unavailable)
+├── Model_2 (weights lacking)/    # Secondary model (UnSegMedGAT, weights unavailable)
 ├── Visualize_lung_mask/          # Utility scripts for visualization
 └── README.md
 ```
@@ -85,8 +85,8 @@ conda create --name lung-dataprep python=3.8 -y
 conda activate lung-dataprep
 pip install -r Model_1/Data_preparation/requirements.txt
 
-# 2. Environment for Segmentation & XAI
-conda create --name lung-segment python=3.10 -y
+# 2. Environment for Segmentation, T_Stage_Classification & XAI
+conda create --name lung python=3.10 -y
 conda activate lung-segment
 pip install -r Model_1/Segmentation/requirements.txt
 ```
@@ -131,6 +131,22 @@ The **Lung-PET-CT-Dx** dataset provides labels for T, N, and M stages. The distr
 <p align="center">
   <b>Figure 1:</b> Distribution of ground truth labels for T-Stage, N-Stage, and M-Stage in the dataset.
 </p>
+
+Here are the labels generally used in radiology to caracteristize each of these stages. There is no mention of M2 or M3 as one can see (M-Stage). Regarding the N-Stage, it requires not only to identify a tumor but also to look if it has eventually metastasized and where. Given the complexity of this task, the present project is focusing on finding the true T-Stage.
+
+| T (Tumor)            | N (Nodes)               | M (Metastasis)          |
+|----------------------|-------------------------|-------------------------|
+| **is**: In situ     | **N0**: No nodes        | **M0**: No metastasis   |
+| **T1** ≤3 cm         | **N1**: Ipsilateral hilar | **M1**: Distant        |
+| ・T1a ≤1 cm          | **N2**: Mediastinal     | ・M1a: Contralateral lung |
+| ・T1b >1-2 cm        | **N3**: Contralateral   | ・M1b: Single distant   |
+| ・T1c >2-3 cm        |                         | ・M1c: Multiple distant |
+| **T2** >3-5 cm       |                         |                         |
+| ・T2a >3-4 cm        |                         |                         |
+| ・T2b >4-5 cm        |                         |                         |
+| **T3** >5-7 cm       |                         |                         |
+| **T4** >7 cm         |                         |                         |
+
 
 ## Model Methodology
 
@@ -197,51 +213,13 @@ To truly trust a model, we must understand *how* it arrives at its conclusions. 
 
 | Method | Visualization | Description |
 | :--- | :--- | :--- |
-| **Saliency Map** | <img src="Figures/saliencyoutput.png" alt="Saliency explanation" width="100%"> | **Raw pixel influence.** Shows the gradient of the output with respect to the input pixels. It's fast but can be noisy. |
-| **Gradient × Input** | <img src="Figures/gradientinputoutput.png" alt="Gradient x Input explanation" width="100%"> | **Influence combined with pixel intensity.** Weights the gradients by the input pixel values, highlighting influential bright/dark areas. |
-| **Integrated Gradients** | <img src="Figures/integratedgradientsoutput.png" alt="Integrated Gradients explanation" width="100%"> | **Stable, cumulative pixel importance.** Aggregates gradients along a path from a baseline (black) image to the input, providing more robust and less noisy attributions. |
-| **SmoothGrad** | <img src="Figures/smoothgradoutput.png" alt="SmoothGrad explanation" width="100%"> | **Noise-reduced explanation.** Averages saliency maps over multiple noisy copies of the input to produce a cleaner, more stable visualization. |
-| **SquareGrad** | <img src="Figures/squaregradoutput.png" alt="SquareGrad explanation" width="100%"> | **Magnitude of influence.** Similar to SmoothGrad, but focuses on the magnitude of gradients, highlighting impactful regions regardless of positive/negative influence. |
-| **VarGrad** | <img src="Figures/vargradoutput.png" alt="VarGrad explanation" width="100%"> | **Stability/uncertainty of model focus.** Measures the variance of gradients. Bright areas indicate regions where the model's focus is unstable or uncertain. |
-| **Sobol Attribution** | <img src="Figures/SobolAttributionMethodoutput.png" alt="Sobol Attribution explanation" width="100%"> | **Importance including feature interactions.** A sophisticated method that captures not just individual pixel importance but also the contribution of interactions between pixels. |
-
-### A Closer Look: Analysis of a Single Slice
-
-While the volumetric view confirms consistency, a deep dive into a single, representative slice allows for a more granular comparison of the XAI methods. By examining how different techniques explain the same prediction, we can build a more nuanced and robust understanding of the model's behavior. Figure 5 shows the attribution maps for a central slice of the tumor, each revealing a different facet of the model's reasoning.
-
-<p align="center">
-  <!-- Row 1 -->
-  <img src="Figures/gradientinput18.png" width="220">
-  <img src="Figures/integratedgradient18.png" width="220">
-  <img src="Figures/saliency18.png" width="220"><br>
-  <em>
-    (a) Gradient input (b) Integrated gradient (c) Saliency
-  </em><br><br>
-
-  <!-- Row 2 -->
-  <img src="Figures/smoothgrad18.png" width="220">
-  <img src="Figures/sobol18.png" width="220">
-  <img src="Figures/vargrad18.png" width="220"><br>
-  <em>
-    (d) SmoothGrad (e) Sobol attribution (f) VarGrad
-  </em><br><br>
-
-  <!-- Row 3 -->
-  <img src="Figures/squaregrad18.png" width="220"><br>
-  <em>(g) SquareGrad</em>
-</p>
-<figcaption style="margin-top: 1rem;"><b>Figure 5:</b> A comparison of attribution method visualizations for a single tumor slice.</figcaption>
-</figure>
-
-### Interpreting and Comparing XAI Methods
-
-To build a compelling case for the model's trustworthiness, we integrate two complementary views: a holistic analysis of its focus across the entire tumor volume (Figure 4) and a granular examination of its logic on a representative slice (Figure 5).
-
-The volumetric view confirms the model’s macro-level reliability. It demonstrates a stable and consistent focus that accurately tracks the tumor's anatomy from slice to slice, proving its reasoning is a continuous, logical process, not an isolated success.
-
-The single-slice deep-dive then validates the model’s micro-level sophistication. Here, we see noisy Saliency maps (5c) refined into a sharp, confident focus by Integrated Gradients (5b). We can diagnose the model’s certainty through VarGrad’s low-variance signal (5f) and appreciate the complexity of its reasoning, which includes feature interactions captured by Sobol Attribution (5e).
-
-Ultimately, this dual-pronged approach transforms a "black box" prediction into a transparent finding. The macro-view confirms what the model is looking at is consistently correct, while the micro-view validates how it is thinking is both precise and stable. 
+| **Saliency Map** | <div style="display:flex; flex-direction:column"> <img src="Figures/saliency1.png" alt="Saliency explanation" style="width:100%"> <img src="Figures/saliency2.png" alt="Saliency explanation" style="width:100%"> <img src="Figures/saliency3.png" alt="Saliency explanation" style="width:100%"> <img src="Figures/saliency4.png" alt="Saliency explanation" style="width:100%"> <img src="Figures/saliency5.png" alt="Saliency explanation" style="width:100%"> <img src="Figures/saliency6.png" alt="Saliency explanation" style="width:100%"> </div> | **Raw pixel influence.** Shows the gradient of the output with respect to the input pixels. It's fast but can be noisy. |
+| **Gradient × Input** | <div style="display:flex; flex-direction:column"> <img src="Figures/gradientinput1.png" alt="Gradient x Input explanation" style="width:100%"> <img src="Figures/gradientinput2.png" alt="Gradient x Input explanation" style="width:100%"> <img src="Figures/gradientinput3.png" alt="Gradient x Input explanation" style="width:100%"> <img src="Figures/gradientinput4.png" alt="Gradient x Input explanation" style="width:100%"> <img src="Figures/gradientinput5.png" alt="Gradient x Input explanation" style="width:100%"> <img src="Figures/gradientinput6.png" alt="Gradient x Input explanation" style="width:100%"> </div> | **Influence combined with pixel intensity.** Weights the gradients by the input pixel values, highlighting influential bright/dark areas. |
+| **Integrated Gradients** | <div style="display:flex; flex-direction:column"> <img src="Figures/integratedgradient1.png" alt="Integrated Gradients explanation" style="width:100%"> <img src="Figures/integratedgradient2.png" alt="Integrated Gradients explanation" style="width:100%"> <img src="Figures/integratedgradient3.png" alt="Integrated Gradients explanation" style="width:100%"> <img src="Figures/integratedgradient4.png" alt="Integrated Gradients explanation" style="width:100%"> <img src="Figures/integratedgradient5.png" alt="Integrated Gradients explanation" style="width:100%"> <img src="Figures/integratedgradient6.png" alt="Integrated Gradients explanation" style="width:100%"> </div> | **Stable, cumulative pixel importance.** Aggregates gradients along a path from a baseline (black) image to the input, providing more robust and less noisy attributions. |
+| **SmoothGrad** | <div style="display:flex; flex-direction:column"> <img src="Figures/smoothgrad1.png" alt="SmoothGrad explanation" style="width:100%"> <img src="Figures/smoothgrad2.png" alt="SmoothGrad explanation" style="width:100%"> <img src="Figures/smoothgrad3.png" alt="SmoothGrad explanation" style="width:100%"> <img src="Figures/smoothgrad4.png" alt="SmoothGrad explanation" style="width:100%"> <img src="Figures/smoothgrad5.png" alt="SmoothGrad explanation" style="width:100%"> <img src="Figures/smoothgrad6.png" alt="SmoothGrad explanation" style="width:100%"> </div> | **Noise-reduced explanation.** Averages saliency maps over multiple noisy copies of the input to produce a cleaner, more stable visualization. |
+| **SquareGrad** | <div style="display:flex; flex-direction:column"> <img src="Figures/squaregrad1.png" alt="SquareGrad explanation" style="width:100%"> <img src="Figures/squaregrad2.png" alt="SquareGrad explanation" style="width:100%"> <img src="Figures/squaregrad3.png" alt="SquareGrad explanation" style="width:100%"> <img src="Figures/squaregrad4.png" alt="SquareGrad explanation" style="width:100%"> <img src="Figures/squaregrad5.png" alt="SquareGrad explanation" style="width:100%"> <img src="Figures/squaregrad6.png" alt="SquareGrad explanation" style="width:100%"> </div> | **Magnitude of influence.** Similar to SmoothGrad, but focuses on the magnitude of gradients, highlighting impactful regions regardless of positive/negative influence. |
+| **VarGrad** | <div style="display:flex; flex-direction:column"> <img src="Figures/vargrad1.png" alt="VarGrad explanation" style="width:100%"> <img src="Figures/vargrad2.png" alt="VarGrad explanation" style="width:100%"> <img src="Figures/vargrad3.png" alt="VarGrad explanation" style="width:100%"> <img src="Figures/vargrad4.png" alt="VarGrad explanation" style="width:100%"> <img src="Figures/vargrad5.png" alt="VarGrad explanation" style="width:100%"> <img src="Figures/vargrad6.png" alt="VarGrad explanation" style="width:100%"> </div> | **Stability/uncertainty of model focus.** Measures the variance of gradients. Bright areas indicate regions where the model's focus is unstable or uncertain. |
+| **Sobol Attribution** | <div style="display:flex; flex-direction:column"> <img src="Figures/SobolAttributionMethod1.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod2.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod3.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod4.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod5.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod6.png" alt="Sobol Attribution explanation" style="width:100%"> </div> | **Importance including feature interactions.** A sophisticated method that captures not just individual pixel importance but also the contribution of interactions between pixels. |
 
 ## Limitations and Future Work
 

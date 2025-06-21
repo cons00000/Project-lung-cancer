@@ -1,0 +1,4 @@
+### Début de l'exécution : Sat Jun 21 13:50:25 CEST 2025
+SHAP results will be saved to: /usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Xai/shap_results
+Processing 10 patients
+Initializing segmentation model...
