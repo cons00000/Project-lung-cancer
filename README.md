@@ -77,18 +77,29 @@ cd project-lung-cancer
 ```
 
 **Step 2: Set Up Conda Environments**
-Two separate environments are required due to dependency constraints.
+Different environments are required due to dependency constraints.
+
+#### Data-analysis :
 
 ```bash
 # 1. Environment for Data Preparation
-conda create --name lung-dataprep python=3.8 -y
-conda activate lung-dataprep
-pip install -r Model_1/Data_preparation/requirements.txt
+conda create --name analysis_env python=3.8 -y
+conda activate analysis_env
+pip install -r Data-analysis/requirements.txt
+```
 
+#### Model_1 :
+
+```bash
+# 1. Environment for Data Preparation
+conda create --name dataprep python=3.8 -y
+conda activate dataprep
+pip install -r Model_1/requirements_data_prep.txt
+```
+
+```bash
 # 2. Environment for Segmentation, T_Stage_Classification & XAI
-conda create --name lung python=3.10 -y
-conda activate lung-segment
-pip install -r Model_1/Segmentation/requirements.txt
+sbatch Model_1/Segmentation/requirements_seg.slurm
 ```
 
 **Step 3: Download the Dataset**
@@ -206,10 +217,8 @@ The model's T-stage classification performance was evaluated using a confusion m
 
 To truly trust a model, we must understand *how* it arrives at its conclusions. Since the model analyzes the CT scan slice by slice, we can apply XAI methods to each slice to create a sequence of attribution maps. This approach provides a pseudo-3D, volumetric understanding of the model's decision-making process, allowing us to see how its focus evolves across the depth of the tumor.
 
-**Figure 4** presents these sequences for various XAI methods. The colored background highlights the slices containing the segmented tumor, where the model's attention is expected to be highest.
-
 **Figure 4: Volumetric XAI Attribution Maps**
-*The table below visualizes the model's focus across all relevant slices of a patient's scan for different XAI methods.*
+*The table below visualizes the model's focus across all slices of a patient's scan for different XAI methods.*
 
 | Method | Visualization | Description |
 | :--- | :--- | :--- |

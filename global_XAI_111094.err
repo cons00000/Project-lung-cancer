@@ -1,5 +1,0 @@
-2025-06-21 13:50:26.558842: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2025-06-21 13:50:26.595470: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2025-06-21 13:50:37.364964: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1639] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 8181 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 3080, pci bus id: 0000:17:00.0, compute capability: 8.6
-  0%|          | 0/299 [00:00<?, ?it/s]100%|██████████| 299/299 [00:00<00:00, 3232.33it/s]

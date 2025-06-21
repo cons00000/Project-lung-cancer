@@ -1,0 +1,16 @@
+### Début de l'exécution : Sat Jun 21 16:22:20 CEST 2025
+SHAP results will be saved to: /usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Xai/shap_results
+Processing 10 patients
+Initializing segmentation model...
+299  Patients found
+Epoch end
+------- Loading patients in predict mode -------
+Collecting background data for 2D slices...
+(46, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+(57, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Background slices shape: (50, 512, 512, 1)
+### Fin de l'exécution : Sat Jun 21 16:22:40 CEST 2025

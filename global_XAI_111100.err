@@ -1,0 +1,16 @@
+2025-06-21 16:22:21.112287: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-06-21 16:22:21.427290: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-06-21 16:22:31.773647: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1639] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 8181 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 3080, pci bus id: 0000:17:00.0, compute capability: 8.6
+  0%|          | 0/299 [00:00<?, ?it/s]100%|██████████| 299/299 [00:00<00:00, 3407.95it/s]
+WARNING:tensorflow:Keras is training/fitting/evaluating on array-like data. Keras may not be optimized for this format, so if your input data format is supported by TensorFlow I/O (https://github.com/tensorflow/io) we recommend using that to load a Dataset instead.
+Traceback (most recent call last):
+  File "/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Xai/Global_XAI.py", line 131, in <module>
+    slice_model = create_slice_model(model.model1)
+  File "/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Xai/Global_XAI.py", line 39, in create_slice_model
+    seg_output = segmentation_model.predict(input_layer)
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/keras/src/utils/traceback_utils.py", line 70, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/usr/users/pred_lung_cancer/piquet_con/miniconda3/envs/lung_env/lib/python3.10/site-packages/keras/src/engine/data_adapter.py", line 266, in <genexpr>
+    int(i.shape[0]) for i in tf.nest.flatten(inputs)
+TypeError: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
