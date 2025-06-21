@@ -151,13 +151,13 @@ Here are the labels generally used in radiology to caracteristize each of these 
 ## Model Methodology
 
 ### DuneAI for Segmentation
-**DuneAI** is a deep learning model designed for the automated detection and segmentation of non-small cell lung cancer (NSCLC) in CT images. It relies on the **[precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox)** for data preprocessing.
+**DuneAI** is a deep learning model designed for the automated detection and segmentation of non-small cell lung cancer (NSCLC) in CT images. We use the **[precision-medicine-toolbox](https://github.com/primakov/precision-medicine-toolbox)** for data preprocessing.
 
+- **Preprocessing:** DICOM images are converted to NRRD using the precision medicine toolbox.
 - **Input Format:** NRRD files.
-- **Preprocessing:** DICOM images are converted to NRRD using the provided scripts.
 
 ### T-Stage Classification Logic
-The model first segments the tumor and calculates its size. This size is then mapped to a clinical T-stage according to established guidelines.
+The model first segments the tumor and outputs a mask. We then calculate the size of the mask to give the tumor size. Ultimatly it is mapped to a clinical T-stage according to established guidelines.
 
 **Table 1: Mapping Tumor Size to T-Stage**
 | T-Stage | Tumor Size                   |
