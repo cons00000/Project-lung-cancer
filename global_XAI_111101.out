@@ -2,3 +2,258 @@
 SHAP results will be saved to: /usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Xai/shap_results
 Processing 10 patients
 Initializing segmentation model...
+299  Patients found
+Epoch end
+------- Loading patients in predict mode -------
+Collecting background data for 2D slices...
+(46, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+(57, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Background slices shape: (50, 512, 512, 1)
+Creating SHAP-compatible slice model...
+Segmentation model input shape: (None, 512, 512, 1)
+Segmentation model output shape: (None, 512, 512, 1)
+Shape after squeeze: (None, 512, 512)
+Tumor percentage output shape: (None,)
+Created SHAP-compatible slice model
+Initializing SHAP explainer...
+Initialized SHAP explainer
+
+Processing patients:
+
+=== Processing patient 1/10 ===
+(46, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 36, 512, 512)
+Processing slices: [ 0  8 17 26 35]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 8: tumor percentage = 0.0004
+Error saving slice 8: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 17: tumor percentage = 0.0030
+Error saving slice 17: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 26: tumor percentage = 0.0001
+Error saving slice 26: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 35: tumor percentage = 0.0000
+Error saving slice 35: Third dimension must be 3 or 4
+Finished processing patient 1
+
+=== Processing patient 2/10 ===
+(57, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 49, 512, 512)
+Processing slices: [ 0 12 24 36 48]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 12: tumor percentage = 0.0000
+Error saving slice 12: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 24: tumor percentage = 0.0000
+Error saving slice 24: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 36: tumor percentage = 0.0019
+Error saving slice 36: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 48: tumor percentage = 0.0000
+Error saving slice 48: Third dimension must be 3 or 4
+Finished processing patient 2
+
+=== Processing patient 3/10 ===
+(68, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 61, 512, 512)
+Processing slices: [ 0 15 30 45 60]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 15: tumor percentage = 0.0000
+Error saving slice 15: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 30: tumor percentage = 0.0000
+Error saving slice 30: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 45: tumor percentage = 0.0000
+Error saving slice 45: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 60: tumor percentage = 0.0000
+Error saving slice 60: Third dimension must be 3 or 4
+Finished processing patient 3
+
+=== Processing patient 4/10 ===
+(162, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1147 resampled img:  46
+Original image shape: (1, 114, 512, 512)
+Processing slices: [  0  28  56  84 113]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 28: tumor percentage = 0.0000
+Error saving slice 28: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 56: tumor percentage = 0.0000
+Error saving slice 56: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 84: tumor percentage = 0.0000
+Error saving slice 84: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 113: tumor percentage = 0.0000
+Error saving slice 113: Third dimension must be 3 or 4
+Finished processing patient 4
+
+=== Processing patient 5/10 ===
+(56, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 51, 512, 512)
+Processing slices: [ 0 12 25 37 50]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 12: tumor percentage = 0.0024
+Error saving slice 12: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 25: tumor percentage = 0.0000
+Error saving slice 25: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 37: tumor percentage = 0.0019
+Error saving slice 37: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 50: tumor percentage = 0.0000
+Error saving slice 50: Third dimension must be 3 or 4
+Finished processing patient 5
+
+=== Processing patient 6/10 ===
+(230, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 229, 512, 512)
+Processing slices: [  0  57 114 171 228]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 57: tumor percentage = 0.0000
+Error saving slice 57: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 114: tumor percentage = 0.0015
+Error saving slice 114: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 171: tumor percentage = 0.0008
+Error saving slice 171: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 228: tumor percentage = 0.0000
+Error saving slice 228: Third dimension must be 3 or 4
+Finished processing patient 6
+
+=== Processing patient 7/10 ===
+(57, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1150 resampled img:  46
+Original image shape: (1, 45, 512, 512)
+Processing slices: [ 0 11 22 33 44]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 11: tumor percentage = 0.0000
+Error saving slice 11: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 22: tumor percentage = 0.0047
+Error saving slice 22: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 33: tumor percentage = 0.0000
+Error saving slice 33: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 44: tumor percentage = 0.0000
+Error saving slice 44: Third dimension must be 3 or 4
+Finished processing patient 7
+
+=== Processing patient 8/10 ===
+(409, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 375, 512, 512)
+Processing slices: [  0  93 187 280 374]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 93: tumor percentage = 0.0000
+Error saving slice 93: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 187: tumor percentage = 0.0000
+Error saving slice 187: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 280: tumor percentage = 0.0000
+Error saving slice 280: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 374: tumor percentage = 0.0000
+Error saving slice 374: Third dimension must be 3 or 4
+Finished processing patient 8
+
+=== Processing patient 9/10 ===
+(333, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 327, 512, 512)
+Processing slices: [  0  81 163 244 326]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 81: tumor percentage = 0.0000
+Error saving slice 81: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 163: tumor percentage = 0.0000
+Error saving slice 163: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 244: tumor percentage = 0.0000
+Error saving slice 244: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 326: tumor percentage = 0.0000
+Error saving slice 326: Third dimension must be 3 or 4
+Finished processing patient 9
+
+=== Processing patient 10/10 ===
+(55, 512, 512)
+Window limits  -1000 150.0
+Amount of unique values, original img:  1151 resampled img:  46
+Original image shape: (1, 46, 512, 512)
+Processing slices: [ 0 11 22 33 45]
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 0: tumor percentage = 0.0000
+Error saving slice 0: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 11: tumor percentage = 0.0000
+Error saving slice 11: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 22: tumor percentage = 0.0002
+Error saving slice 22: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 33: tumor percentage = 0.0000
+Error saving slice 33: Third dimension must be 3 or 4
+Slice data shape for SHAP: (1, 512, 512, 1)
+Slice 45: tumor percentage = 0.0008
+Error saving slice 45: Third dimension must be 3 or 4
+Finished processing patient 10
+
+Processed 10 of 10 patients
+Results saved to: /usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Xai/shap_results
+### Fin de l'exécution : Sat Jun 21 16:47:25 CEST 2025
