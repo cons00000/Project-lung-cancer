@@ -194,7 +194,7 @@ Just below is the data for one patient and the segmentation's result after using
 <p align="center">
   <img src="Figures/output.png" alt="Model segmentation" width="70%"/>
   <br>
-  <b>Figure 2:</b> Example of DuneAI segmentation results showing the original image overlayed with the predicted mask.
+  <b>Figure 3:</b> Example of DuneAI segmentation results showing the original image overlayed with the predicted mask.
 </p>
 
 To truly trust a model, we must understand *how* it arrives at its conclusions. Since the model analyzes the CT scan slice by slice, we can apply XAI methods to each slice to create a sequence of attribution maps. This approach provides a pseudo-3D, volumetric understanding of the model's decision-making process, allowing us to see how its focus evolves across the depth of the tumor.
@@ -219,7 +219,7 @@ The model's T-stage classification performance was evaluated using a confusion m
   <img src="Figures/confusionmatrixoutput.png" alt="Confusion Matrix" width="60%"/>
 </p>
 <p align="center">
-  <b>Figure 3:</b> Confusion Matrix showing model-predicted T-stages versus the actual T-stages from the dataset.
+  <b>Figure 5:</b> Confusion Matrix showing model-predicted T-stages versus the actual T-stages from the dataset.
 </p>
 
 **Analysis of Classification Performance:**
