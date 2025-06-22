@@ -11,3 +11,4 @@ output/
 *.out
 sqlite-tools-*/
 
+data_cache/
