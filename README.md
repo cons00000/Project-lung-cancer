@@ -350,7 +350,7 @@ A comprehensive comparison between both methods reveals their relative strengths
 
 > Primakov, S., Lavrova, E., Salahuddin, Z., Woodruff, H. C., & Lambin, P. (2022). *Precision-medicine-toolbox: An open-source python package for facilitation of quantitative medical imaging and radiomics analysis*. arXiv preprint arXiv:2202.13965. [https://arxiv.org/abs/2202.13965](https://arxiv.org/abs/2202.13965)
 
-> Fel, T., Hervier, L., Vigouroux, D., et al. (2022). *Xplique: A Deep Learning Explainability Toolbox*. Workshop on Explainable Artificial Intelligence for Computer Vision (CVPR). [https://arxiv.org/abs/2204.13132](https://arxiv.org/abs/2204.13132)
+> Fel, T., Hervier, L., Vigouroux, D., et al. (2022). *Xplique: A Deep Learning Explainability Toolbox*. Workshop on Explainable Artificial Intelligence for Computer Vision (CVPR). [https://arxiv.org/abs/2206.04394](https://arxiv.org/abs/2206.04394)
 
 > Mudit Adityaja, A., Shigwan, S. J., & Kumar, N. (2024). UnSegMedGAT: Unsupervised Medical Image Segmentation using Graph Attention Networks Clustering. arXiv preprint arXiv:2411.01966. [https://doi.org/10.48550/arXiv.2411.01966](https://doi.org/10.48550/arXiv.2411.01966)
 
