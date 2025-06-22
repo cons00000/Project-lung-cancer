@@ -45,18 +45,47 @@ Our methodology is an inference and analysis pipeline designed to scrutinize a p
 
 ## Repository Structure
 ```
-project-lung-cancer/
-├── NIH dataset_raw/              # Raw TCIA dataset (images and clinical data)
-├── Data-analysis/                # Jupyter notebooks for initial data exploration
-├── Figures/                      # All plots and visualizations generated for the README
-├── Model_1/                      # Primary model (DuneAI)
-│   ├── Data_preparation/         # Scripts for converting DICOM to NRRD
-│   ├── Segmentation/             # Scripts for running tumor segmentation
-│   ├── T_Stage_Classification/   # Scripts for classifying T-stage from segmentations
-│   └── Xai/                      # Scripts for generating XAI attribution maps
-├── Model_2 (weights lacking)/    # Secondary model (UnSegMedGAT, weights unavailable)
-├── Visualize_lung_mask/          # Utility scripts for visualization
-└── README.md
+├── Data-analysis/
+│   ├── data_analysis.ipynb          # Data analysis notebook
+│   └── requirements.txt             # Dependencies for analysis
+│
+├── Figures/                         # Directory for graphs and visualizations
+│
+├── Model_1/                         # First processing model
+│   ├── Data_preparation/            # Data preparation module
+│   │   ├── AnalysisBox.py          
+│   │   ├── data_preparation.ipynb   # Run the data preparation
+│   │   ├── DataSet.py             
+│   │   ├── FeaturesSet.py          
+│   │   ├── GenerateResultBox.py    
+│   │   ├── ResultSet.py            
+│   │   └── ToolBox.py              
+│   │
+│   ├── requirements_data_prep.txt   # Environnement dependencies for data preparation 
+│   ├── requirements_seg.slurm       # SLURM configuration for segmentation
+│   │
+│   ├── Segmentation/                # Segmentation module (DuneAI)
+│   │   ├── Generator_v1.py         
+│   │   ├── lung_extraction_funcs_13_09.py  
+│   │   ├── model_files/            
+│   │   ├── segmentation.py         # Main segmentation script
+│   │   ├── segmentation.sh         # Run the segmentation
+│   │   └── TheDuneAI.py           
+│   │
+│   ├── T_Stage_Classification/      # T-stage classification
+│   │   ├── Alternative_measurements.py     # Measurements of the tumor's size
+│   │   ├── Alternative_measurements.sh     # Run the alternative measurements script
+│   │   ├── Stats.ipynb                     # Notebook to run the stats for the measurements
+│   │   ├── recist_and_volume_calculator.py  
+│   │
+│   └── Xai/                         # Explainable AI (XAI)
+│       ├── Local_XAI.ipynb        # Local XAI notebook
+│       └── Local_XAI.sh           # Run local XAI script
+│
+├── Model_2 (weights lacking)/       # Second model (weights missing)
+│   └── UnSegMedGAT/                # UnSegMedGAT architecture
+│
+└── README.md                        
 ```
 
 ## Getting Started
