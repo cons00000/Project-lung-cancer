@@ -12,3 +12,4 @@ output/
 sqlite-tools-*/
 
 data_cache/
+Model_2 (weights lacking)/UnSegMedGAT
