@@ -1,15 +1,14 @@
-__pycache__/
+*__pycache__/
 *.pyc
 *.pyo
 *.pyd
-.Python
-debug/
-output/
+*.Python
+*debug/
+*output/
 *.pth
 *.pt
 *.err
 *.out
-sqlite-tools-*/
+*sqlite-tools-*/
 
 data_cache/
-Model_2 (weights lacking)/UnSegMedGAT
