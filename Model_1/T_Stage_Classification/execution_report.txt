@@ -1,0 +1,23 @@
+
+        RAPPORT D'EXÉCUTION
+        ====================
+        Patients traités: 279
+        Tumeurs analysées: 279
+        Temps total: 189.3 secondes
+        Temps moyen par patient: 0.68 sec
+        
+        STATISTIQUES CLÉS:
+        - RECIST maximal moyen: 49.8 mm
+        - Diamètre 3D maximal moyen: 76.2 mm
+        - Nombre moyen de nodules par patient: 1.0
+        - Volume tumoral moyen: 35.7 mm³
+        
+        CORRÉLATION RECIST/3D:
+        - Corrélation: 0.911
+        - Différence moyenne: 26.34 mm
+        
+        DISTRIBUTION DES NODULES:
+        num_nodules
+1    279
+Name: count, dtype: int64
+        

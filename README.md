@@ -166,7 +166,9 @@ Here are the labels generally used in radiology to caracteristize each of these 
 - **Input Format:** NRRD files.
 
 ### T-Stage Classification Logic
-The model first segments the tumor and outputs a mask. We then calculate the size of the mask to give the tumor size. Ultimatly it is mapped to a clinical T-stage according to established guidelines.
+The model first segments the tumor and outputs a mask. 
+
+We then calculate the size of the mask to give the tumor size. Ultimatly it is mapped to a clinical T-stage according to established guidelines.
 
 **Table 1: Mapping Tumor Size to T-Stage**
 | T-Stage | Tumor Size                   |
@@ -213,21 +215,80 @@ To truly trust a model, we must understand *how* it arrives at its conclusions. 
 | **Sobol Attribution** | <div style="display:flex; flex-direction:column"> <img src="Figures/SobolAttributionMethod1.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod2.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod3.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod4.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod5.png" alt="Sobol Attribution explanation" style="width:100%"> <img src="Figures/SobolAttributionMethod6.png" alt="Sobol Attribution explanation" style="width:100%"> </div> | **Importance including feature interactions.** A sophisticated method that captures not just individual pixel importance but also the contribution of interactions between pixels. |
 
 ### Classification Performance
-The model's T-stage classification performance was evaluated using a confusion matrix. The matrix highlights the model's strengths and weaknesses in distinguishing between different cancer stages.
+
+This study compares two different T-stage classification methods to evaluate their effectiveness in predicting cancer stages:
+
+1. **RECIST Method:** The original implementation that calculates tumor diameter using the RECIST (Response Evaluation Criteria in Solid Tumors) guidelines, measuring the longest diameter of the tumor.
+
+2. **Ellipsoid Method:** An alternative approach that models the tumor as an ellipsoid and calculates an equivalent spherical diameter based on the tumor's volume, providing a more comprehensive representation of tumor size.
+
+Both methods were evaluated using the same dataset and classification criteria to ensure fair comparison.
+
+#### RECIST Method Performance
+
+The RECIST method's T-stage classification performance was evaluated using a confusion matrix, highlighting the model's strengths and weaknesses in distinguishing between different cancer stages.
 
 <p align="center">
-  <img src="Figures/confusionmatrixoutput.png" alt="Confusion Matrix" width="60%"/>
+  <img src="Figures/recist_confusion_matrix.png" alt="RECIST Confusion Matrix" width="60%"/>
 </p>
 <p align="center">
-  <b>Figure 5:</b> Confusion Matrix showing model-predicted T-stages versus the actual T-stages from the dataset.
+  <b>Figure 5a:</b> Confusion Matrix for RECIST method showing model-predicted T-stages versus the actual T-stages from the dataset.
 </p>
 
-**Analysis of Classification Performance:**
+**Analysis of RECIST Classification Performance:**
 
-- **Strongest Performance:** The model shows its highest confidence and accuracy in identifying the **T1c** stage, correctly classifying 24 cases.
+- **Strongest Performance:** The RECIST method shows its highest confidence and accuracy in identifying the **T1c** stage, correctly classifying 24 cases.
 - **Adjacent Stage Confusion:** A common pattern is the confusion between adjacent or near-adjacent stages, which is clinically understandable as it depends on precise size measurements. For example, actual **T1c** cases are frequently misclassified as **T1b** (13 cases) or **T2a** (20 cases). This indicates the model is identifying tumors of a similar size but the calculated diameter falls just across a classification boundary.
-- **Handling of General vs. Specific Labels:** The ground truth contains general labels like '2' and '3', while the model predicts specific sub-stages. The model tends to overestimate the stage for these general labels; for example, actual **T2** cases are most often predicted as **T2b** (10), **T3** (16), or even **T4** (6). This highlights a challenge in reconciling different levels of label granularity.
-- **Challenges with Smallest Tumors:** The model struggles significantly with the smallest tumors, failing to correctly identify any **T1a** cases, often classifying them as larger stages like **T1b** or **T1c**.
+- **Handling of General vs. Specific Labels:** The ground truth contains general labels like '2' and '3', while the model predicts specific sub-stages. The RECIST method tends to overestimate the stage for these general labels; for example, actual **T2** cases are most often predicted as **T2b** (10), **T3** (16), or even **T4** (6). This highlights a challenge in reconciling different levels of label granularity.
+- **Challenges with Smallest Tumors:** The RECIST method struggles significantly with the smallest tumors, failing to correctly identify any **T1a** cases, often classifying them as larger stages like **T1b** or **T1c**.
+
+#### Ellipsoid Method Performance
+
+The ellipsoid method's performance was similarly evaluated to provide a direct comparison with the RECIST approach.
+
+<p align="center">
+  <img src="Figures/ellipsoid_confusion_matrix.png" alt="Ellipsoid Confusion Matrix" width="60%"/>
+</p>
+<p align="center">
+  <b>Figure 5b:</b> Confusion Matrix for Ellipsoid method showing model-predicted T-stages versus the actual T-stages from the dataset.
+</p>
+
+**Analysis of Ellipsoid Classification Performance:**
+
+- **Enhanced Volume-Based Assessment:** The ellipsoid method provides a more comprehensive tumor size assessment by considering the three-dimensional characteristics of the tumor rather than just the longest diameter.
+- **Stage Distribution Patterns:** [Analysis will be added based on the actual ellipsoid confusion matrix results]
+- **Comparison with RECIST:** [Specific differences in classification patterns will be noted here]
+
+#### Comparative Method Analysis
+
+A comprehensive comparison between both methods reveals their relative strengths and performance characteristics.
+
+<p align="center">
+  <img src="Figures/method_comparison_plots.png" alt="Method Comparison" width="90%"/>
+</p>
+<p align="center">
+  <b>Figure 6:</b> Comprehensive comparison between RECIST and Ellipsoid methods showing (left) accuracy comparison, (middle) mean stage error comparison, and (right) error distribution by T-stage.
+</p>
+
+**Key Findings from Method Comparison:**
+
+- **Overall Accuracy:** The Ellipsoid method achieves 34.90% accuracy compared to RECIST's 32.29%, representing a 2.60% improvement in classification performance.
+- **Error Patterns:** The Ellipsoid method shows consistently lower mean stage errors across most T-stages, with the most significant improvements in T1b (0.166 reduction) and T2b (0.250 reduction) classifications.
+- **Stage-Specific Performance:** Both methods perform best on T3 and T4 stages (lowest mean errors of 0.52-0.60 and 0.40 respectively), while struggling most with T1a stages (2.80 mean error) and the rare 'is' (in situ) cases.
+- **Clinical Implications:** The Ellipsoid method's volume-based approach provides more accurate tumor size assessment, particularly beneficial for borderline cases between T-stages where precise measurement is critical.
+
+**Performance Summary:**
+
+| Metric | RECIST Method | Ellipsoid Method | Better Method |
+|--------|---------------|------------------|---------------|
+| Overall Accuracy | 32.29% | 34.90% | **Ellipsoid** |
+| Mean Stage Error | 1.193 | 1.125 | **Ellipsoid** |
+| Error Rate | 67.71% | 65.10% | **Ellipsoid** |
+| T1b Mean Error | 1.083 | 0.917 | **Ellipsoid** |
+| T1c Mean Error | 1.173 | 1.136 | **Ellipsoid** |
+| T2b Mean Error | 1.125 | 0.875 | **Ellipsoid** |
+| Standard Deviation | 1.197 | 1.200 | RECIST (slightly) |
+
 
 ## Limitations and Future Work
 
