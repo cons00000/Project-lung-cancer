@@ -339,7 +339,9 @@ A comprehensive comparison between both methods to reveal the difference between
 
 ### Known Issues
 - **Limited Model Comparison:** The analysis was restricted to **DuneAI**, as pre-trained weights for the alternative model (**UnSegMedGAT**) were not publicly available.
+
 - **Dataset Imperfections:** A subset of image files in the public dataset were found to be corrupted or missing essential `z-spacing` metadata, requiring data cleaning and exclusion.
+
 - **2D Slice-Based Analysis:** Only local 3D-like XAI could be applied to this model. No global XAI, model-agnostic method was found to explain it.
 
 ### Future Work  
@@ -347,10 +349,10 @@ A comprehensive comparison between both methods to reveal the difference between
   Acquire weights for `Model_2` (UnSegMedGAT) to conduct a comprehensive performance and explainability comparison against existing models.  
 
 - **3D Explainability Methods:**  
-  Implement advanced XAI techniques (e.g., 3D Grad-CAM, attention rollout) to generate volumetric explanations of model predictions beyond slice-level interpretability.  
+  Implement advanced XAI techniques to generate volumetric explanations of model predictions beyond slice-level interpretability.  
 
 - **Model Repository Expansion:**  
-  Integrate additional state-of-the-art pre-trained segmentation models (e.g., nnU-Net, Swin UNETR) through systematic literature review and community collaboration.  
+  Integrate additional state-of-the-art pre-trained segmentation models through literature review and community collaboration.  
 
 - **Multi-volume Tumor Analysis:**  
   Develop a post-processing pipeline to:  
