@@ -73,16 +73,16 @@ Our methodology is an inference and analysis pipeline designed to scrutinize a p
 │   │   └── TheDuneAI.py           
 │   │
 │   ├── T_Stage_Classification/      # T-stage classification
-│   │   ├── Alternative_measurements.py     # Measurements of the tumor's size
-│   │   ├── Alternative_measurements.sh     # Run the alternative measurements script
-│   │   ├── Stats.ipynb                     # Notebook to run the stats for the measurements
+│   │   ├── Tumor_size_measures.py   # Measurements of the tumor's size
+│   │   ├── Tumor_size_measures.sh   # Run the alternative measurements script
+│   │   ├── Stats.ipynb              # Notebook to run the stats for the measurements
 │   │   ├── recist_and_volume_calculator.py  
 │   │
-│   └── Xai/                         # Explainable AI (XAI)
+│   └── Xai/                       # Explainable AI (XAI)
 │       ├── Local_XAI.ipynb        # Local XAI notebook
 │       └── Local_XAI.sh           # Run local XAI script
 │
-├── Model_2 (weights lacking)/       # Second model (weights missing)
+├── Model_2 (weights lacking)/      # Second model (weights missing)
 │   └── UnSegMedGAT/                # UnSegMedGAT architecture
 │
 └── README.md                        
@@ -247,26 +247,24 @@ To truly trust a model, we must understand *how* it arrives at its conclusions. 
 
 This study compares two different T-stage classification methods to evaluate their effectiveness in predicting cancer stages:
 
-1. **RECIST Method:** The original implementation that calculates tumor diameter using the RECIST (Response Evaluation Criteria in Solid Tumors) guidelines, measuring the longest diameter of the tumor.
+1. **RECIST Method:** The original implementation that calculates tumor diameter using the RECIST (Response Evaluation Criteria in Solid Tumors) guidelines, measuring the longest diameter of the tumor. For each slice of the mask, the minimum circle including all points in computed and the output gives the maximum diameter of these circles.
 
-2. **Ellipsoid Method:** An alternative approach that models the tumor as an ellipsoid and calculates an equivalent spherical diameter based on the tumor's volume, providing a more comprehensive representation of tumor size.
-
-Both methods were evaluated using the same dataset and classification criteria to ensure fair comparison.
+2. **Ellipsoid Method:** An alternative approach that models the tumor as an ellipsoid for each slice. We then take the maxium of these diameters. 
 
 #### RECIST Method Performance
 
-The RECIST method's T-stage classification performance was evaluated using a confusion matrix, highlighting the model's strengths and weaknesses in distinguishing between different cancer stages.
+The RECIST method's T-stage classification performance was evaluated using a confusion matrix.
 
 <p align="center">
   <img src="Figures/recist_confusion_matrix.png" alt="RECIST Confusion Matrix" width="60%"/>
 </p>
 <p align="center">
-  <b>Figure 5a:</b> Confusion Matrix for RECIST method showing model-predicted T-stages versus the actual T-stages from the dataset.
+  <b>Figure 5a:</b> Confusion Matrix for RECIST method showing model-predicted T-stages versus the medical identified T-stages.
 </p>
 
 **Analysis of RECIST Classification Performance:**
 
-- **Strongest Performance:** The RECIST method demonstrates exceptional accuracy in identifying **T1c** stage tumors, correctly classifying 24 cases with high confidence, making it the most reliable staging category.
+- **Strongest Performance:** The RECIST method demonstrates accuracy in identifying **T1c** stage tumors, correctly classifying 24 cases with high confidence, making it the most reliable staging category.
 
 - **Boundary Sensitivity Challenges:** Adjacent stage confusion represents a significant limitation, with actual **T1c** cases frequently misclassified as **T1b** (13 cases) or **T2a** (20 cases). This pattern indicates the model correctly identifies tumor size ranges but struggles with precise diameter-based boundary determinations.
 
@@ -299,21 +297,30 @@ The ellipsoid method's performance was similarly evaluated to provide a direct c
 
 #### Comparative Method Analysis
 
-A comprehensive comparison between both methods reveals their relative strengths and performance characteristics.
+A comprehensive comparison between both methods to reveal the difference between their ouputs and their relative performance.
+<p align="center">
+  <img src="Figures/method_comparison.png" alt="Outputs' correlations" width="90%"/>
+</p>
+<p align="center">
+  <b>Figure 6:</b> Correlation between RECIST and Ellipsoid methods regarding the tumor's size and volume.
+</p>
 
 <p align="center">
   <img src="Figures/method_comparison_plots.png" alt="Method Comparison" width="90%"/>
 </p>
 <p align="center">
-  <b>Figure 6:</b> Comprehensive comparison between RECIST and Ellipsoid methods showing (left) accuracy comparison, (middle) mean stage error comparison, and (right) error distribution by T-stage.
+  <b>Figure 7:</b> Comprehensive comparison between RECIST and Ellipsoid methods showing (left) accuracy comparison, (middle) mean stage error comparison, and (right) error distribution by T-stage.
 </p>
 
 **Key Findings from Method Comparison:**
 
 - **Overall Accuracy:** The Ellipsoid method achieves 34.90% accuracy compared to RECIST's 32.29%, representing a 2.60% improvement in classification performance.
+
 - **Error Patterns:** The Ellipsoid method shows consistently lower mean stage errors across most T-stages, with the most significant improvements in T1b (0.166 reduction) and T2b (0.250 reduction) classifications.
-- **Stage-Specific Performance:** Both methods perform best on T3 and T4 stages (lowest mean errors of 0.52-0.60 and 0.40 respectively), while struggling most with T1a stages (2.80 mean error) and the rare 'is' (in situ) cases.
-- **Clinical Implications:** The Ellipsoid method's volume-based approach provides more accurate tumor size assessment, particularly beneficial for borderline cases between T-stages where precise measurement is critical.
+
+- **Stage-Specific Performance:** Both methods perform best on T3 and T4 stages (lowest mean errors of 0.52-0.60 and 0.40 respectively), while struggling most with T1a stages (2.80 mean error). The "in situ" case is problematic since only tumors of a certain size can be identified by the model.
+
+- **Clinical Implications:** The Ellipsoid method's volume-based approach provides more accurate tumor size assessment, particularly beneficial for borderline cases between T-stages.
 
 **Performance Summary:**
 
@@ -333,12 +340,26 @@ A comprehensive comparison between both methods reveals their relative strengths
 ### Known Issues
 - **Limited Model Comparison:** The analysis was restricted to **DuneAI**, as pre-trained weights for the alternative model (**UnSegMedGAT**) were not publicly available.
 - **Dataset Imperfections:** A subset of image files in the public dataset were found to be corrupted or missing essential `z-spacing` metadata, requiring data cleaning and exclusion.
-- **2D Slice-Based Analysis:** While our XAI analysis provides a pseudo-3D view, the model itself still operates on 2D slices, which may not fully capture complex 3D volumetric context.
+- **2D Slice-Based Analysis:** Only local 3D-like XAI could be applied to this model. No global XAI, model-agnostic method was found to explain it.
 
-### Future Work
-- **Comparative Model Analysis:** Acquire weights for `Model_2` (UnSegMedGAT) to enable a direct performance and explainability comparison between different architectures.
-- **True 3D Explainability:** Implement XAI methods designed specifically for 3D convolutional networks to generate a true 3D attribution map, moving beyond the slice-by-slice approximation.
-- **Expand Model Repository:** Survey recent literature to identify and integrate other publicly available pre-trained models for a broader comparative study.
+### Future Work  
+- **Architecture Comparison:**  
+  Acquire weights for `Model_2` (UnSegMedGAT) to conduct a comprehensive performance and explainability comparison against existing models.  
+
+- **3D Explainability Methods:**  
+  Implement advanced XAI techniques (e.g., 3D Grad-CAM, attention rollout) to generate volumetric explanations of model predictions beyond slice-level interpretability.  
+
+- **Model Repository Expansion:**  
+  Integrate additional state-of-the-art pre-trained segmentation models (e.g., nnU-Net, Swin UNETR) through systematic literature review and community collaboration.  
+
+- **Multi-volume Tumor Analysis:**  
+  Develop a post-processing pipeline to:  
+  1. Aggregate slice-wise predictions into 3D masks with relaxed size constraints  
+  2. Enable segmentation of disconnected tumor volumes  
+  3. Correlate volumetric findings with clinical N-Stage classifications  
+
+- **Volumetric Assessment Metrics:**  
+  Design a 3D evaluation metric incorporating tumor height/depth to overcome current 2D measurement limitations, enabling true spatial size analysis.  
 
 ## References
 
