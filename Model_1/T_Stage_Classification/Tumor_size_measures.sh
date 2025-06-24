@@ -7,9 +7,8 @@
 #SBATCH --mem=16G
 #SBATCH --cpus-per-task=4
 
-PYTHON_SCRIPT="/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/T_Stage_Classification/Alternative_measurements.py"
+PYTHON_SCRIPT="/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/T_Stage_Classification/Tumor_size_measures.py"
 
-# Exécution avec logs
-echo "### Début de l'exécution : $(date)"
+echo "### Start of the execution : $(date)"
 python "$PYTHON_SCRIPT"
-echo "### Fin de l'exécution : $(date)"
+echo "### End of the exécution : $(date)"

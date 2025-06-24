@@ -36,9 +36,6 @@ class ContourPilot:
         self.model1 = keras.models.model_from_json(loaded_model_json)
         self.model1.load_weights(os.path.join(model_path,'weights_v7.hdf5'))
 
-
-
-
     def __generate_segmentation__(self,img,params,thr=0.99):
         temp_pred_arr = np.zeros_like(img)
         if self.verbosity:

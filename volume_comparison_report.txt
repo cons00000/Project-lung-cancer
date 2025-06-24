@@ -1,0 +1,43 @@
+
+        COMPARATIVE VOLUMETRIC ANALYSIS REPORT
+        ======================================
+        Patients processed: 279
+        Tumors analyzed: 279
+        Total time: 3109.6 seconds
+        Average time per patient: 11.15 sec
+        
+        KEY STATISTICS (METHOD A):
+        - Average maximum RECIST: 49.8 mm
+        - Average tumor volume: 35702.9 mm³
+        - Median volume: 18090.0 mm³
+        
+        KEY STATISTICS (METHOD B):
+        - Average maximum RECIST: 48.3 mm
+        - Average tumor volume: 35254.2 mm³
+        - Median volume: 15537.8 mm³
+        
+        RECIST/VOLUME CORRELATION (METHOD A):
+        - Correlation: 0.701
+        
+        RECIST/VOLUME CORRELATION (METHOD B):
+        - Correlation: 0.709
+        
+        INTER-METHOD CORRELATION:
+        - RECIST: 0.985
+        - Volume: 0.941
+        
+        VOLUME DISTRIBUTION (METHOD A):
+        - Min: 170.0 mm³
+        - Max: 349610.0 mm³
+        - Standard deviation: 54528.9 mm³
+        
+        VOLUME DISTRIBUTION (METHOD B):
+        - Min: 129.2 mm³
+        - Max: 395006.7 mm³
+        - Standard deviation: 53044.6 mm³
+        
+        NODULE DISTRIBUTION:
+        num_nodules
+1    279
+Name: count, dtype: int64
+        

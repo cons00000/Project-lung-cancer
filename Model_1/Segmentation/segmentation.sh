@@ -9,7 +9,6 @@
 
 PYTHON_SCRIPT="/usr/users/pred_lung_cancer/piquet_con/Project-lung-cancer/Model_1/Segmentation/segmentation.py"
 
-# Exécution avec logs
-echo "### Début de l'exécution : $(date)"
+echo "### Start the execution : $(date)"
 python "$PYTHON_SCRIPT"
-echo "### Fin de l'exécution : $(date)"
+echo "### End of the execution : $(date)"

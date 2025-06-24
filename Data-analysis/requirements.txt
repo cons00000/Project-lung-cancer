@@ -1,0 +1,7 @@
+pandas
+monai
+torch
+nympy
+matplotlib
+pydicom
+torchvision
